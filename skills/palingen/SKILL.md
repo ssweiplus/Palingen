@@ -64,6 +64,20 @@ These rules remain active across every stage:
 - Concentrate user attention without deleting information.
 - Automate execution, not process ownership.
 - A failed local action should not erase successful intermediate work.
+- Minimize non-goal work for the human; spend machine effort to save human attention.
+- Prefer the largest safe unit of reuse; do not decompose stable code for architectural purity.
+- Split more finely where uncertainty, risk, valuable intermediate results, or human judgment make an inspection point useful.
+- Expose uncertainty without forcing human attention at every decision point.
+
+## Granularity and incremental refinement
+
+Agentification is allowed to be deliberately incomplete in one pass. Start with coarse safe reuse and refine boundaries only when analysis or real usage reveals meaningful friction.
+
+Do not turn continuous optimization into a heavy Palingen process. When useful, leave a lightweight `.agentification.md` note containing:
+
+- current boundaries;
+- known compromises or assumptions;
+- conditions that would justify revisiting them.
 
 ## Responsibility Allocation Protocol
 
