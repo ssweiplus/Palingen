@@ -6,9 +6,29 @@ Use this Skill to transform an existing software project into an agent-friendly 
 
 Palingen does not prescribe one fixed workflow implementation. It provides a staged reasoning method, responsibility-allocation protocol, and supporting references/tools. The Agent remains the semantic orchestrator.
 
+## Gate 0 — Decide whether to Agentify at all
+
+Before entering the five-stage process, first ask whether the target is actually an Agentification problem.
+
+Use `references/suitability-assessment.md` and prefer ordinary software improvement when semantic orchestration is not materially part of the problem.
+
+Agentification is usually justified when at least one of the following is materially present:
+
+- an LLM is already embedded in the application's workflow or decision loop;
+- natural-language, semi-structured, probabilistic, or unstable outputs require semantic interpretation;
+- humans currently provide semantic orchestration across multiple deterministic tools.
+
+If none of these are present, recommend conventional engineering such as installation automation, configuration simplification, CLI/UI cleanup, packaging, deterministic adapters, or ordinary refactoring instead of forcing Agentification.
+
+> **Agentification is justified by semantic orchestration, not by software inconvenience alone.**
+
+> **If ordinary refactoring is enough, prefer ordinary refactoring.**
+
+Palingen must be able to recommend **do not Agentify**.
+
 ## Core operating model
 
-Agentification proceeds through five major stages:
+After Gate 0 passes, Agentification proceeds through five major stages:
 
 1. Understand
 2. Sediment
@@ -28,6 +48,11 @@ Recommended progression:
 
 ```text
 Root Palingen Skill
+        |
+        v
+Gate 0: Suitability
+        |
+        +---- not suitable ----> recommend ordinary software improvement
         |
         v
 Understand sub-skill
