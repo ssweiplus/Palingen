@@ -2,35 +2,36 @@
 
 ## Purpose
 
-Use this stage to validate both local Agentification slices and the overall value of the current Agentification iteration, then decide whether to accept, defer further refinement, or return to the smallest relevant earlier stage.
+Validate local Agentification slices, system-level value, and final acceptance. Decide whether to accept, defer further refinement, or return to the smallest relevant earlier scope.
 
 Load:
 
 - `../../references/validation-acceptance.md`
-- the current Responsibility Map;
-- Harness Mapping;
-- Skill / Capability / Glue maps when they exist;
-- relevant slice plans and implementation evidence.
+- `../../references/target-form.md`
+- `../../references/execution-truth.md` when State/Event/Artifact behavior is material
+- `../../references/human-role.md` when intervention quality is material
+- current Responsibility/Harness/Skill/Capability/Glue artifacts as applicable.
 
 Do not treat "the demo ran once" as sufficient validation.
 
-## Validation levels
-
-### 1. Slice Validation
+## 1. Slice Validation
 
 For each meaningful migration slice, verify:
 
 - underlying capability still works;
-- operational artifact contracts remain compatible;
+- Operational Artifact contracts remain compatible;
+- evidence capture did not interfere with artifact use;
 - intended semantic decisions actually moved to Agent control;
-- Harness boundaries still enforce required truth, policy, authority, and recovery;
+- Harness still enforces truth, policy, authority, and recovery constraints;
+- Agent Working/Narrative State cannot silently replace Fact State;
+- meaningful execution changes remain observable without depending on a specific backend;
 - intermediate results remain usable where intended;
-- human inspection or intervention exists at the intended granularity;
-- no unnecessary micro-Tool, micro-Skill, or adapter explosion was introduced.
+- human intervention exists at the intended mode/granularity;
+- no unnecessary micro-Tool, micro-Skill, adapter, or hidden workflow was introduced.
 
-If a slice fails, fix or revisit that slice first rather than restarting the whole Agentification process.
+If a slice fails, revisit that slice first.
 
-### 2. System Validation
+## 2. System Validation
 
 At meaningful milestones, compare the current system with the original reasons for Agentification.
 
@@ -39,20 +40,23 @@ Evaluate:
 - human attention and interface-switching burden;
 - LLM/request-contract and integration burden;
 - semantic glue and workflow rigidity;
-- recoverability and reuse of intermediate results;
+- recoverability/reuse of intermediate work;
 - quality and cost of human intervention;
-- original capability and artifact compatibility;
+- original capability and Operational Artifact compatibility;
 - architecture integrity across Agent / Skill / Tool / Harness / Human;
 - adaptability to new tools, targets, and irregular outputs;
+- progressive disclosure and traceability of raw evidence;
 - token, latency, reliability, observability, and maintenance costs.
 
-Prefer concrete behavior and evidence over architecture aesthetics.
+Use `target-form.md` as a directional check, not as an architecture-purity checklist.
 
-### 3. Final Acceptance
+Prefer concrete behavior and evidence over aesthetics.
+
+## 3. Final Acceptance
 
 Ask whether the objectives of this Agentification iteration have been achieved well enough to stop.
 
-Choose exactly one outcome:
+Choose exactly one:
 
 ```text
 ACCEPT
@@ -60,58 +64,52 @@ ACCEPT_WITH_DEFERRED_REFINEMENT
 NOT_ACCEPTED
 ```
 
-#### ACCEPT
+### ACCEPT
 
-Use when the intended value is achieved and no important unresolved issue justifies more work now.
+Use when intended value is achieved and no important unresolved issue justifies more work now.
 
-#### ACCEPT_WITH_DEFERRED_REFINEMENT
+### ACCEPT_WITH_DEFERRED_REFINEMENT
 
-Use when the iteration achieved its goals but some coarse boundary, known friction, or assumption is intentionally left for future evidence-driven refinement.
+Use when this iteration achieved its goals but some coarse boundary, known friction, or assumption is intentionally left for evidence-driven refinement.
 
-If useful, leave only a lightweight `.agentification.md` note with current boundaries, known compromise, and revisit triggers.
+If useful, leave a lightweight `.agentification.md` with current boundaries, known compromise, and revisit triggers.
 
-#### NOT_ACCEPTED
+### NOT_ACCEPTED
 
 Use when important compatibility, responsibility, safety, recovery, usability, or value goals were not achieved.
 
 Return to the smallest relevant scope:
 
 ```text
-local issue              -> Slice
-Harness boundary issue   -> Sediment
-responsibility issue     -> Disassemble
-suitability/value issue  -> Understand / Gate 0
+local implementation issue -> Slice / Rebuild
+Harness/truth issue         -> Sediment
+responsibility issue        -> Disassemble
+suitability/value issue     -> Understand / Gate 0
 ```
 
 Do not restart the full process by default.
 
 ## Human acceptance
 
-Do not turn final validation into a long sequence of low-value approvals.
+Do not turn final validation into approval spam.
 
-Summarize:
+Summarize what changed, what stayed compatible, which original pain improved, material residual risks, and the recommended outcome.
 
-- what materially changed;
-- what remained compatible;
-- what user pain improved;
-- important residual risks or deferred boundaries;
-- the recommended acceptance outcome.
-
-Request human judgment only when ownership, business value, or unresolved high-impact ambiguity requires it.
+Request human judgment only when ownership, business value, authority, or unresolved high-impact ambiguity actually requires it.
 
 ## Stop rule
 
 > Agentification is complete when marginal refinement is no longer justified, not when every component has been transformed.
 
-A valid result may therefore intentionally retain large deterministic blocks and deferred boundaries.
+A valid result may intentionally retain large deterministic blocks and deferred boundaries.
 
-## Expected outputs
+## Expected output
 
-Produce a concise validation artifact such as `VALIDATION.md` or equivalent containing:
+Produce a concise `VALIDATION.md` or equivalent containing:
 
 - relevant Slice Validation results;
 - System Validation summary;
 - Final Acceptance outcome and rationale;
-- deferred refinements and revisit triggers, if any.
+- deferred refinements/revisit triggers, if any.
 
-The exact format may vary by project. Do not create reporting complexity that exceeds the value of the Agentification itself.
+Do not create reporting complexity that exceeds the value of the Agentification itself.
