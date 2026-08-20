@@ -17,9 +17,11 @@ Load when relevant:
 - `../../references/responsibility-allocation.md`
 - `../../references/contract-friction.md`
 - `../../references/workflow-to-skill.md`
+- `../../references/skill-layering.md`
 - `../../references/semantic-glue-migration.md`
 - `../../references/ephemeral-glue.md`
 - `../../references/human-role.md`
+- `../../references/connection-model.md` when connection type matters.
 
 If detailed analysis reveals a wrong Harness boundary, revise Sediment rather than forcing the assumption.
 
@@ -74,15 +76,19 @@ Split more finely when:
 
 Do not create micro-Tools or micro-Skills for architectural purity.
 
-## Workflow extraction
+## Workflow and Skill extraction
 
 Do not translate fixed workflow sequencing into a numbered Skill.
 
 Extract goal, required evidence, decision criteria, heuristics, recovery knowledge, escalation points, and stop conditions.
 
+Classify reusable knowledge as High-level Skill, Low-level Skill, Procedure Fragment, or Reference using `skill-layering.md`.
+
+For meaningful Skill candidates, state what they teach and what they explicitly do **not** own. Mandatory truth, permission, evidence, and lifecycle constraints stay outside Skill.
+
 Release unnecessary ordering to Agent composition. Preserve order only when order is part of correctness.
 
-Use `WORKFLOW_EXTRACTION.md` when materially useful.
+Use `WORKFLOW_EXTRACTION.md` and/or a lightweight Skill Map when materially useful.
 
 ## Contract and semantic glue analysis
 
@@ -99,6 +105,21 @@ Keep stable transport/schema handling deterministic. Move volatile semantic inte
 Preserve raw evidence before interpretation.
 
 Use `GLUE_MAP.md` when materially useful.
+
+## Connection candidates
+
+When important owner-to-owner boundaries are non-obvious, classify the connection:
+
+```text
+Nail       -> truth / safety / authority / hard lifecycle structure
+Glue       -> semantic or contextual composition
+Lubricant  -> deterministic representation/transport adaptation
+Remove     -> obsolete connection from the old workflow
+```
+
+Do not use a Nail to recreate ordinary workflow sequencing, and do not use Agent Glue for stable deterministic friction.
+
+A `CONNECTION_MAP` is optional; create it only when it materially clarifies Rebuild.
 
 ## Ephemeral Glue
 
@@ -119,8 +140,9 @@ At minimum, update the Responsibility Map and preserve enough analysis to show:
 - coarse blocks intentionally retained;
 - proposed Tool/Code boundaries;
 - semantic decisions moved toward Agent control;
-- Skill/Reference candidates;
+- Skill/Reference candidates and important `does_not_own` boundaries;
 - deterministic vs semantic glue treatment;
+- important Nail/Glue/Lubricant/Remove connection candidates when relevant;
 - old workflow glue proposed for deletion;
 - Harness revisions;
 - Operational Artifact compatibility constraints discovered in code;
@@ -136,7 +158,9 @@ Move toward Rebuild when:
 - major mixed-responsibility hotspots have proposed owners;
 - reusable deterministic capability boundaries are identifiable;
 - important knowledge is no longer trapped only in workflow code;
+- Skill candidates do not own truth, authority, or hidden global sequencing;
 - semantic and deterministic glue are distinguishable;
+- important structural vs semantic connections are distinguishable where needed;
 - meaningful artifact/recovery/human boundaries are visible;
 - candidate slices can transfer control without unnecessary decomposition;
 - Harness conflicts have been fed back to Sediment;
