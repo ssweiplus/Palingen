@@ -26,7 +26,8 @@ Load:
 - `../../references/harness-mapping.md` as the primary reference;
 - `../../references/execution-truth.md` when State/Event/Artifact/recovery semantics are material;
 - `../../references/human-role.md` when authority or intervention boundaries are material;
-- `../../references/responsibility-allocation.md` when ownership remains ambiguous.
+- `../../references/responsibility-allocation.md` when ownership remains ambiguous;
+- `../../references/skill-layering.md` when high-level strategy/knowledge candidates are material.
 
 ## Core question
 
@@ -88,6 +89,8 @@ Explicitly keep outside Harness:
 - reusable deterministic execution -> Tool/Code candidate;
 - deterministic micro-adaptation -> Lubricant candidate.
 
+For high-level Skill candidates, capture strategy, required evidence, decision criteria, heuristics, escalation, and stop conditions. Do not encode end-to-end sequencing. State what the Skill explicitly does not own when that boundary matters.
+
 ## Required outputs
 
 Produce/update at least:
@@ -108,7 +111,7 @@ When material, record which situations are autonomous, reviewable/overrideable, 
 
 ### High-level Skill candidates
 
-Identify strategy/knowledge that belongs outside Harness.
+Identify strategy/knowledge that belongs outside Harness. Use a lightweight Skill Map only when multiple Skill boundaries or `does_not_own` constraints would clarify the architecture.
 
 ## Exit criteria
 
@@ -122,7 +125,8 @@ Before leaving Sediment, answer:
 6. Which execution changes must be observable without fixing the backend?
 7. What successful intermediate work must survive later failure?
 8. Which semantic responsibilities are explicitly kept out of Harness?
-9. Which ambiguities must be revisited during Disassemble?
+9. Which high-level knowledge belongs in Skill without owning truth, authority, or sequencing?
+10. Which ambiguities must be revisited during Disassemble?
 
 ## Feedback loop
 
