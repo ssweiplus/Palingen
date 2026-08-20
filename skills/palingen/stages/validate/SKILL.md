@@ -6,11 +6,14 @@ Validate local Agentification slices, system-level value, and final acceptance. 
 
 Load:
 
-- `../../references/validation-acceptance.md`
-- `../../references/target-form.md`
-- `../../references/execution-truth.md` when State/Event/Artifact behavior is material
-- `../../references/human-role.md` when intervention quality is material
-- current Responsibility/Harness/Skill/Capability/Glue artifacts as applicable.
+- the original Gate 0 / Understand rationale and project boundary;
+- `../../references/validation-acceptance.md`;
+- `../../references/target-form.md`;
+- `../../references/execution-truth.md` when State/Event/Artifact behavior is material;
+- `../../references/human-role.md` when intervention quality is material;
+- `../../references/skill-layering.md` when Skill integrity is material;
+- `../../references/connection-model.md` when important connection choices were introduced;
+- current Responsibility/Harness/Skill/Capability/Glue/Connection artifacts and Slice Plans as applicable.
 
 Do not treat "the demo ran once" as sufficient validation.
 
@@ -27,13 +30,16 @@ For each meaningful migration slice, verify:
 - meaningful execution changes remain observable without depending on a specific backend;
 - intermediate results remain usable where intended;
 - human intervention exists at the intended mode/granularity;
-- no unnecessary micro-Tool, micro-Skill, adapter, or hidden workflow was introduced.
+- Skills provide know-how without owning truth, authority, or hidden global sequencing;
+- Nails protect structural correctness rather than recreating workflow sequencing;
+- semantic Glue is visible where intended and stable deterministic friction remains Lubricant/Code;
+- no unnecessary micro-Tool, micro-Skill, adapter, connection layer, or hidden workflow was introduced.
 
 If a slice fails, revisit that slice first.
 
 ## 2. System Validation
 
-At meaningful milestones, compare the current system with the original reasons for Agentification.
+At meaningful milestones, compare the current system with the original Gate 0 / Understand reasons for Agentification.
 
 Evaluate:
 
@@ -44,6 +50,7 @@ Evaluate:
 - quality and cost of human intervention;
 - original capability and Operational Artifact compatibility;
 - architecture integrity across Agent / Skill / Tool / Harness / Human;
+- connection integrity across Nail / Glue / Lubricant / Remove decisions where material;
 - adaptability to new tools, targets, and irregular outputs;
 - progressive disclosure and traceability of raw evidence;
 - token, latency, reliability, observability, and maintenance costs.
@@ -81,10 +88,10 @@ Use when important compatibility, responsibility, safety, recovery, usability, o
 Return to the smallest relevant scope:
 
 ```text
-local implementation issue -> Slice / Rebuild
-Harness/truth issue         -> Sediment
-responsibility issue        -> Disassemble
-suitability/value issue     -> Understand / Gate 0
+local implementation / connection issue -> Slice / Rebuild
+Harness / execution-truth issue          -> Sediment
+responsibility / Skill-boundary issue    -> Disassemble
+suitability / value issue                -> Understand / Gate 0
 ```
 
 Do not restart the full process by default.
@@ -108,7 +115,7 @@ A valid result may intentionally retain large deterministic blocks and deferred 
 Produce a concise `VALIDATION.md` or equivalent containing:
 
 - relevant Slice Validation results;
-- System Validation summary;
+- System Validation summary against original Agentification rationale;
 - Final Acceptance outcome and rationale;
 - deferred refinements/revisit triggers, if any.
 
