@@ -18,17 +18,17 @@ Agentification is usually justified when at least one of the following is materi
 - natural-language, semi-structured, probabilistic, or unstable outputs require semantic interpretation;
 - humans currently provide semantic orchestration across multiple deterministic tools.
 
-If none of these are present, recommend conventional engineering such as installation automation, configuration simplification, CLI/UI cleanup, packaging, deterministic adapters, or ordinary refactoring instead of forcing Agentification.
+If none of these are present, recommend conventional engineering instead of forcing Agentification.
 
-> **Agentification is justified by semantic orchestration, not by software inconvenience alone.**
+> Agentification is justified by semantic orchestration, not by software inconvenience alone.
 
-> **If ordinary refactoring is enough, prefer ordinary refactoring.**
+> If ordinary refactoring is enough, prefer ordinary refactoring.
 
 Palingen must be able to recommend **do not Agentify**.
 
 ## Core operating model
 
-After Gate 0 passes, Agentification proceeds through five major stages:
+After Gate 0 passes:
 
 1. Understand
 2. Sediment
@@ -36,176 +36,188 @@ After Gate 0 passes, Agentification proceeds through five major stages:
 4. Rebuild
 5. Validate
 
-Stages 2 and 3 overlap and may iterate. Do not force a strictly linear pass when discoveries during disassembly change the Harness boundary or Skill structure.
-
-## Progressive stage loading
-
-Do not load all detailed stage instructions into active context at once.
-
-Use this root Skill as the persistent control frame. Load the detailed sub-skill for the current stage only when entering that stage. Complete that stage's required artifacts and exit criteria before loading the next stage, unless a documented feedback loop requires revisiting an earlier stage.
-
-Recommended progression:
+Sediment and Disassemble may iterate. Rebuild should migrate the smallest valuable responsibility slices. Validate may return to the smallest relevant earlier scope.
 
 ```text
-Root Palingen Skill
-        |
-        v
-Gate 0: Suitability
-        |
-        +---- not suitable ----> recommend ordinary software improvement
-        |
-        v
-Understand sub-skill
-        |
-  stage artifacts
-        |
-        v
-Sediment sub-skill
-        |       ^
-        |       |
-        v       |
-Disassemble sub-skill
-        |
-        v
-Rebuild sub-skill
-        |
-        v
-Validate sub-skill
+Gate 0
+  |
+  +-- not suitable --> conventional improvement
+  |
+  v
+Understand
+  v
+Sediment <--> Disassemble
+  v
+Rebuild
+  v
+Validate
+  |
+  +-- accept / defer
+  +-- return to smallest broken boundary
 ```
 
-The root Skill preserves cross-stage invariants; sub-skills provide local reasoning instructions.
+## Progressive loading
+
+Keep this root Skill as the persistent control frame. Load the current Stage Skill only when entering that stage, then load references only when the corresponding decision is materially present.
+
+Do not load every reference into active context by default.
 
 ## Cross-stage invariants
 
-These rules remain active across every stage:
-
-- Preserve original project goals, constraints, and observed facts.
+- Preserve original project goals, constraints, observed facts, and operational compatibility where required.
 - Code provides capabilities rather than unnecessarily rigid workflows.
 - Agent owns semantic composition and contextual decisions.
-- Harness owns execution truth, state integrity, permissions, evidence, and recovery.
-- Skills carry knowledge and strategy; they must not merely disguise fixed workflows as prose.
+- Harness owns execution truth, state integrity, permissions, evidence semantics, observability boundaries, and recovery constraints.
+- Skills carry knowledge and strategy; they must not disguise fixed workflows as prose.
 - Preserve raw evidence before interpretation or normalization.
 - Prefer deterministic code for deterministic work.
+- One attention surface may coordinate many heterogeneous execution surfaces.
 - Concentrate user attention without deleting information.
+- Let the Agent compress the view, never the truth.
 - Automate execution, not process ownership.
 - A failed local action should not erase successful intermediate work.
 - Minimize non-goal work for the human; spend machine effort to save human attention.
 - Prefer the largest safe unit of reuse; do not decompose stable code for architectural purity.
 - Split more finely where uncertainty, risk, valuable intermediate results, or human judgment make an inspection point useful.
 - Expose uncertainty without forcing human attention at every decision point.
+- Human escalation is not a substitute for Agent reasoning.
+- Artifact capture must not break operational artifact use.
+- Palingen defines meaningful execution-event semantics, not a mandatory observability backend.
 
-## Granularity and incremental refinement
+## Core reference map
 
-Agentification is allowed to be deliberately incomplete in one pass. Start with coarse safe reuse and refine boundaries only when analysis or real usage reveals meaningful friction.
+Load references by problem, not by habit:
 
-Do not turn continuous optimization into a heavy Palingen process. When useful, leave a lightweight `.agentification.md` note containing:
-
-- current boundaries;
-- known compromises or assumptions;
-- conditions that would justify revisiting them.
+```text
+Should this be Agentified?        -> suitability-assessment.md
+What friction exists?             -> contract-friction.md
+Who should own this responsibility? -> responsibility-allocation.md
+What must remain true?            -> harness-mapping.md
+State/Event/Artifact semantics     -> execution-truth.md
+Workflow knowledge extraction     -> workflow-to-skill.md
+Semantic glue migration           -> semantic-glue-migration.md
+Temporary generated glue          -> ephemeral-glue.md
+Human participation               -> human-role.md
+What should the rebuilt form be?  -> target-form.md
+Validation and stop decision       -> validation-acceptance.md
+```
 
 ## Responsibility Allocation Protocol
 
-Responsibility allocation is not a one-time step. It is the spine of the Agentification process and must be revisited at different granularities throughout the stages.
+Responsibility allocation is the spine of the process. Maintain a living **Responsibility Map**.
 
-Maintain a living **Responsibility Map** during the engagement.
-
-### System-level view — Understand
-
-Identify broad ownership in the existing system:
-
-- who controls sequencing;
-- who owns persistent state;
-- who interprets external results;
-- who performs side effects;
-- who enforces permissions and invariants;
-- where humans intervene;
-- where contract friction accumulates.
-
-At this stage, mark mixed-responsibility hotspots rather than prematurely assigning every function.
-
-### Architecture-level view — Sediment
-
-Use the Responsibility Map to establish the new load-bearing structure:
-
-- Truth and critical state tend to sediment into the Harness.
-- Permission and irreversible boundaries tend to sediment into Harness and/or Human authority.
-- Semantic Decisions may rise to the Agent.
-- High-level Knowledge becomes high-level Skills.
-- Reusable deterministic capability candidates are marked for later exposure as Tools.
-
-This stage defines the proposed ownership boundaries before detailed code salvage.
-
-### Code-level view — Salvage / Disassemble
-
-Decompose mixed functions and modules into responsibility atoms:
-
-- **Decision** — what should happen next?
-- **Action** — what operation is performed?
-- **Truth** — what actually happened or what state is authoritative?
-- **Knowledge** — what recurring know-how or strategy guides decisions?
-- **Permission** — who is allowed to authorize or constrain the action?
-
-Map those atoms toward likely owners:
+Start by identifying responsibility atoms:
 
 ```text
-Decision   -> Agent, deterministic policy, or Human depending on context
-Action     -> Tool / deterministic code
+Decision   — what should happen next?
+Action     — what operation is performed?
+Truth      — what actually happened / is authoritative?
+Knowledge  — what reusable know-how guides decisions?
+Permission — who may authorize or constrain the action?
+```
+
+Default directions:
+
+```text
+Decision   -> Agent / deterministic policy / Human
+Action     -> Tool / Code
 Truth      -> Harness
-Knowledge  -> Skill / reference
+Knowledge  -> Skill / Reference
 Permission -> Harness / Human
 ```
 
-Also consider Lubricant for small deterministic interface-friction helpers and Delete for glue that exists only because of the old rigid workflow.
+Use `references/responsibility-allocation.md` when the boundary is ambiguous. Consider Determinism, Semantic Dependency, Contract Volatility, Truth Criticality, Risk/Authority, and Composability.
 
-### Composition review — Rebuild
+Ownership may be layered rather than singular:
 
-Use the Responsibility Map in reverse to detect accidental re-coupling:
-
-- Does a Tool contain hidden semantic decisions?
-- Does a Skill encode a rigid workflow that should remain contextual?
-- Can the Agent overwrite authoritative state or evidence?
-- Does the Harness unnecessarily dictate semantic sequencing?
-- Did old parser/adapter glue reappear without independent value?
-
-### Ownership validation — Validate
-
-Compare proposed ownership with observed runtime behavior:
-
-- Did the Agent receive enough context to make semantic decisions?
-- Did Harness invariants remain deterministic under Agent error?
-- Did Tools remain independently reusable?
-- Did Skills provide useful strategy without becoming hidden code paths?
-- Could a human inspect, interrupt, modify, branch, reuse, and resume intermediate work?
-
-## Responsibility Map
-
-Keep the Responsibility Map as a persistent project artifact rather than an ephemeral analysis note.
-
-Suggested conceptual fields:
-
-```yaml
-- id: auth-expiry-interpretation
-  source: path/to/code
-  responsibility_atom: Decision
-  current_owner: workflow-code
-  proposed_owner: Agent
-  support_skill: auth-recovery
-  harness_constraints:
-    - credential state remains authoritative
-  rationale:
-    determinism: low
-    semantic_dependency: high
-    contract_volatility: high
-    truth_criticality: medium
-    risk_authority: medium
-    composability: medium
+```text
+Intent / semantic choice -> Agent
+Execution                -> Tool
+Execution truth          -> Harness
+Permission               -> Harness / Human
+Operational know-how     -> Skill
 ```
 
-The exact storage format may vary by project. Preserve the reasoning and ownership history.
+## Stage-level use of the Responsibility Map
+
+### Understand
+
+Identify current sequencing, state, interpretation, side effects, permissions, human roles, contract-friction hotspots, and mixed responsibilities. Do not prematurely assign every function.
+
+### Sediment
+
+Establish the load-bearing boundary: authoritative truth, permissions, invariants, lifecycle constraints, evidence/observability semantics, and recovery descend into Harness; semantic interpretation and contextual strategy remain outside.
+
+### Salvage / Disassemble
+
+Separate reusable deterministic capability, semantic decisions, knowledge, glue, authority, and obsolete workflow-only code. Prefer coarse reuse and split where uncertainty becomes valuable.
+
+### Rebuild
+
+Migrate responsibility rather than files. Use minimal Agentification slices, preserve compatible deterministic blocks, prefer side-by-side reconstruction, and ensure old workflow code no longer secretly owns the semantic decision being transferred.
+
+### Validate
+
+Verify slice correctness, system-level Agentification value, and final acceptance. Stop when further refinement is no longer justified.
+
+## Execution truth
+
+Keep these distinct:
+
+```text
+Fact State      -> authoritative
+Working State   -> Agent hypothesis / strategy
+Narrative State -> presentation
+```
+
+Operational artifacts remain usable by their real consumers. Harness evidence capture may reference, snapshot, copy, hash, or record metadata without silently changing artifact contracts.
+
+Meaningful execution changes should be observable through a pluggable boundary. Do not require a particular Event Store, JSONL file, tracing stack, or audit backend.
+
+## Human role
+
+Humans may act as Authority, Judgment, Provider, Executor, Annotator, or Controller.
+
+Prefer the least intrusive useful intervention mode:
+
+```text
+autonomous
+reviewable / overrideable
+blocking only when necessary
+```
+
+Humans should be able to inspect, pause, annotate, replace, branch, skip, redirect, and resume where the interaction surface supports it.
+
+## Granularity and incremental refinement
+
+Agentification may be deliberately incomplete in one pass.
+
+Prefer the largest safe reuse boundary. Split more finely only when uncertainty, risk, human judgment, independent intermediate value, or recovery value justifies it.
+
+Do not optimize toward architectural purity.
+
+When useful, leave a lightweight `.agentification.md` containing only:
+
+- current boundaries;
+- known compromises/assumptions;
+- evidence-based revisit triggers.
+
+## Target-form principles
+
+The rebuilt project should trend toward:
+
+- one attention surface, many execution surfaces;
+- Agent-owned semantic composition;
+- independently composable deterministic capabilities;
+- Harness-owned execution truth/authority/recovery constraints;
+- first-class useful intermediate results;
+- local failure that does not automatically become global workflow failure;
+- progressive disclosure rather than raw-information dumping;
+- natural human intervention without approval fatigue;
+- architectural legibility: capabilities, Skills, invariants, authority, evidence, and current progress are discoverable.
 
 ## Detailed stage guidance
 
-Detailed stage guidance belongs in separate sub-skills under `skills/palingen/stages/`.
+Detailed stage guidance belongs under `skills/palingen/stages/`.
 
-Until those stage sub-skills are fully specified, use the methodology references in `docs/` and do not invent a rigid end-to-end workflow.
+Stage boundaries are checkpoints and context boundaries, not rigid workflow ownership. Revisit earlier artifacts when new evidence changes a boundary, but return to the smallest relevant scope.
