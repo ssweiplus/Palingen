@@ -16,6 +16,31 @@ Human   -> authority and valuable judgment
 
 > Move semantic uncertainty upward to the Agent; move execution truth downward into the Harness.
 
+## Three layers
+
+Palingen should be understood at three different layers.
+
+```text
+1. Methodology
+   How to reason about Agentification.
+
+2. Engineering Skill
+   How an Agent applies that methodology to a real repository.
+
+3. Agentified product / tool
+   The software experience produced after responsibility has been redistributed.
+```
+
+These layers should not expose the same vocabulary to the same audience.
+
+The methodology may use concepts such as Sediment, Responsibility Map, Harness, and Agentification Slice. The Skill may use them internally while working. The resulting product should normally speak the user's domain language instead of requiring users to operate Palingen's internal model.
+
+A concrete Agentified tool may still contain deterministic workflows. Palingen does not ban workflow; it challenges **unnecessary workflow ownership**.
+
+If ordering is genuinely part of correctness, regulation, transaction safety, protocol behavior, or the capability itself, a Tool may keep that workflow internally and expose it as one coarse deterministic capability.
+
+What Palingen tries to remove is accidental orchestration that forces fixed code—or the human—to decide semantic next steps that should remain contextual.
+
 ## What Agentification means
 
 Traditional software often mixes capability execution with workflow sequencing, semantic parsing, retries, human glue, and LLM-specific adapters.
@@ -56,9 +81,9 @@ Validate
 - **Sediment** — establish what must remain deterministic and authoritative.
 - **Disassemble** — separate capability, knowledge, semantic decisions, glue, authority, and obsolete workflow structure.
 - **Rebuild** — migrate the smallest valuable responsibility slices.
-- **Validate** — verify that the new control structure actually improves adaptability without sacrificing reliability or recoverability.
+- **Validate** — verify that the new control structure actually improves adaptability without sacrificing reliability, recoverability, or interaction quality.
 
-The stages are checkpoints and reasoning scopes, not a workflow engine.
+The stages are checkpoints and reasoning scopes, not a workflow engine and not a user-facing wizard.
 
 ## The living spine: Responsibility Map
 
@@ -96,6 +121,8 @@ Palingen therefore supports a deliberately small **run-state whiteboard** that r
 
 Human interaction should default to **autonomous + reviewable**: ordinary bounded decisions proceed, important conclusions remain inspectable, and blocking requests are reserved for authority, irreversibility, important evidence gaps, or human-only capability.
 
+Progress should be reported when something meaningful changes, not simply because Palingen moved between internal stages.
+
 ## Optional domain semantic seeding
 
 Palingen can optionally harvest business vocabulary, concepts, rules, states, outcomes, relationships, aliases, and provenance during Agentification.
@@ -114,10 +141,37 @@ Formal OWL / SHACL / reasoning
 
 Palingen v1 does **not** require OWL or ontology tooling.
 
+Semantic seeding defaults to off and should not block a normal Agentification run.
+
+## Target experience
+
+An Agentified system should not merely replace a form or DAG with a chat window while keeping the same mechanical interaction burden.
+
+The desired experience is:
+
+```text
+Human states intent / constraints / corrections
+                ↓
+Agent interprets and composes
+                ↓
+Harness preserves truth and hard boundaries
+                ↓
+Tools execute deterministic capability
+                ↓
+Human sees meaningful progress, consequences, and decisions
+```
+
+Internal stages, Tool identifiers, workflow states, retry policies, or approval gates should remain internal unless the user benefits from seeing or controlling them.
+
+A useful test is:
+
+> If the user still has to understand and operate the internal orchestration model, did Agentification actually remove non-goal work?
+
 ## Core principles
 
 - Agent owns semantic composition.
 - Deterministic work remains deterministic.
+- Deterministic workflows may remain inside capabilities when their ordering is intrinsically meaningful.
 - Harness owns execution truth, not business workflow sequencing.
 - Skills teach; they do not secretly own the workflow.
 - Preserve raw evidence before interpretation.
@@ -127,6 +181,7 @@ Palingen v1 does **not** require OWL or ontology tooling.
 - Let the Agent compress the view, never the truth.
 - Local failure should not erase useful completed work.
 - Minimize non-goal work for the human.
+- Internal structure should increase reliability without becoming user-visible ceremony.
 - Architectural purity is not the goal; responsibility correction is.
 
 ## Repository structure
@@ -162,7 +217,8 @@ Palingen v1 is not:
 - a mandatory MCP layer;
 - a fixed Event Store / State Store architecture;
 - a reason to rewrite stable deterministic software;
-- a requirement to model every project with an ontology.
+- a requirement to model every project with an ontology;
+- a requirement that every end user understand Agent / Skill / Harness terminology.
 
 ## Status
 
