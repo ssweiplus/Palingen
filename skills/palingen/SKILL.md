@@ -83,23 +83,26 @@ Do not load every reference into active context by default.
 - Human escalation is not a substitute for Agent reasoning.
 - Artifact capture must not break operational artifact use.
 - Palingen defines meaningful execution-event semantics, not a mandatory observability backend.
+- For long-running work, preserve enough lightweight run state to recover across context/session interruption without encoding a workflow engine.
 
 ## Core reference map
 
 Load references by problem, not by habit:
 
 ```text
-Should this be Agentified?        -> suitability-assessment.md
-What friction exists?             -> contract-friction.md
+Should this be Agentified?          -> suitability-assessment.md
+What friction exists?               -> contract-friction.md
 Who should own this responsibility? -> responsibility-allocation.md
-What must remain true?            -> harness-mapping.md
-State/Event/Artifact semantics     -> execution-truth.md
-Workflow knowledge extraction     -> workflow-to-skill.md
-Semantic glue migration           -> semantic-glue-migration.md
-Temporary generated glue          -> ephemeral-glue.md
-Human participation               -> human-role.md
-What should the rebuilt form be?  -> target-form.md
-Validation and stop decision       -> validation-acceptance.md
+What must remain true?              -> harness-mapping.md
+State/Event/Artifact semantics       -> execution-truth.md
+Long-run recovery / whiteboard       -> run-state.md
+Human-facing interaction             -> interaction-contract.md
+Workflow knowledge extraction       -> workflow-to-skill.md
+Semantic glue migration             -> semantic-glue-migration.md
+Temporary generated glue            -> ephemeral-glue.md
+Human participation                 -> human-role.md
+What should the rebuilt form be?    -> target-form.md
+Validation and stop decision         -> validation-acceptance.md
 ```
 
 ## Responsibility Allocation Protocol
