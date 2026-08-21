@@ -73,6 +73,23 @@ Consider Volatility, Opacity, Risk, and Frequency where useful.
 
 Do not assume friction implies Agent mediation. Prefer the lowest-cost resolution that fits the problem.
 
+## Optional domain semantic seeding
+
+When the project contains meaningful business vocabulary that may be useful across future projects in the same domain, optionally load `../../references/domain-semantic-seeding.md`.
+
+Harvest only useful domain semantics such as:
+
+- business concepts/objects;
+- actions and states;
+- rules and outcomes;
+- meaningful relationships;
+- local aliases and terminology;
+- provenance linking the semantic assertion back to code, prompts, UI, schemas, documents, or human clarification.
+
+This is an experimental sidecar, not a required deliverable and not execution truth.
+
+Do not force local vocabulary into a premature canonical ontology. Preserve project terminology and record candidate cross-project alignments only when grounded.
+
 ## Responsibility view
 
 Create the initial Responsibility Map at system/module granularity.
@@ -105,6 +122,8 @@ Produce a compact understanding artifact containing:
 - initial Responsibility Map;
 - areas explicitly recommended to remain ordinary software.
 
+When domain semantic seeding is materially useful, preserve it as a lightweight optional sidecar rather than expanding the mandatory Understanding artifact.
+
 ## Exit criteria
 
 Do not enter Sediment until the Agent can answer:
@@ -115,3 +134,5 @@ Do not enter Sediment until the Agent can answer:
 4. Where does semantic orchestration currently live?
 5. Which operational artifacts/capabilities must not be broken?
 6. Which friction is semantic enough to justify later Agent mediation, and which should remain deterministic?
+
+Domain semantic seeding is never an exit requirement for v1.
