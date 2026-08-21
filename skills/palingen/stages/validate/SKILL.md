@@ -31,7 +31,8 @@ For each meaningful migrated slice, verify what is material:
 - Skills provide know-how without owning truth, authority, or hidden global sequencing;
 - structural Nails do not recreate ordinary workflow sequencing;
 - stable deterministic friction has not been needlessly moved to Agent reasoning;
-- no unnecessary micro-Tool, micro-Skill, adapter, or hidden workflow was introduced.
+- no unnecessary micro-Tool, micro-Skill, adapter, or hidden workflow was introduced;
+- the changed user interaction does not require operating internal orchestration concepts without real user value.
 
 If a slice fails, revisit that slice first.
 
@@ -42,6 +43,7 @@ At a meaningful milestone, compare the current system with the original reason f
 Evaluate only the dimensions relevant to the project, such as:
 
 - human attention and interface-switching burden;
+- interaction naturalness and cognitive burden;
 - integration / target-specific adapter burden;
 - semantic glue and workflow rigidity;
 - recoverability and reuse of intermediate work;
@@ -52,11 +54,20 @@ Evaluate only the dimensions relevant to the project, such as:
 - progressive disclosure and traceability of raw evidence;
 - token, latency, reliability, observability, or maintenance cost where material.
 
+For interaction quality, explicitly ask:
+
+- Can the user state intent, corrections, constraints, and changed direction in domain language?
+- Are internal Palingen stages, Tool identifiers, workflow states, retry policies, and acceptance enums hidden unless useful or requested?
+- Are updates triggered by meaningful progress rather than every internal transition?
+- Are blocking requests limited to real authority, irreversibility, evidence gaps, or human-only capability?
+- Has a chat-shaped interface merely recreated a sequence of approvals and tool choices?
+- If a fixed workflow remains visible, is that visibility genuinely required by the domain or useful to the user?
+
 Use `target-form.md` directionally, not as an architecture-purity checklist.
 
 ## 3. Final Acceptance
 
-Choose one:
+Choose one internal outcome:
 
 ```text
 ACCEPT
@@ -74,7 +85,7 @@ This iteration achieved its goal, while some coarse boundary, known friction, or
 
 ### NOT_ACCEPTED
 
-Important compatibility, responsibility, safety, recovery, usability, or value goals were not achieved.
+Important compatibility, responsibility, safety, recovery, usability, interaction, or value goals were not achieved.
 
 Return to the smallest relevant scope:
 
@@ -87,9 +98,11 @@ suitability / value issue                -> Understand / Gate 0
 
 Do not restart the full process by default.
 
+Internal acceptance enums do not need to become user-facing labels. Translate them into natural language.
+
 ## Human acceptance
 
-Summarize what changed, what stayed compatible, which original friction improved, material residual risks, and the recommended outcome.
+Summarize what changed, what stayed compatible, which original friction improved, how the user interaction changed, material residual risks, and the recommended outcome.
 
 Request human judgment only when business value, authority, ownership, or unresolved high-impact ambiguity actually requires it.
 
@@ -107,4 +120,6 @@ Do not create reporting complexity that exceeds the value of the Agentification 
 
 > Agentification is complete when marginal refinement is no longer justified, not when every component has been transformed.
 
-A valid result may intentionally retain large deterministic blocks and deferred boundaries.
+A valid result may intentionally retain large deterministic blocks, deterministic internal workflows whose ordering is correctness-bearing, and deferred boundaries.
+
+A system should not be accepted merely because its architecture looks Agentic if the user still has to operate it like a workflow engine without corresponding domain value.
