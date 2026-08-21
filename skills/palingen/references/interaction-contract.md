@@ -4,6 +4,8 @@ Use this reference to shape the user experience of a Palingen run from startup t
 
 The interaction surface should reduce human non-goal work while preserving authority and inspectability.
 
+> Palingen methodology is for the Agent; Palingen experience is for the Human.
+
 ## 1. Startup
 
 Palingen already knows its default objective:
@@ -14,37 +16,57 @@ Do not ask the user to restate that objective.
 
 Ask only for information that materially changes scope, authority, or optional behavior.
 
-A minimal startup surface may be:
+A minimal startup may simply identify the target and begin.
+
+### Optional domain semantic seeding
+
+When the experimental semantic-seeding capability is available, mention it once in user language:
+
+> I can also preserve important business concepts, terminology, rules, and relationships for future cross-project semantic alignment. This is optional and does not affect the main Agentification run.
+
+Default to **off** unless the user enables it.
+
+Do not block the run waiting for an answer. If the user does not respond to the optional offer, continue with normal Agentification.
+
+Do not require users to understand OWL, RDF, SHACL, ontology tooling, or Palingen's internal semantic model.
+
+Once disabled by default, do not later enable semantic seeding merely because the Agent notices interesting vocabulary. The user may enable it later explicitly.
+
+## 2. Internal language vs user language
+
+Palingen may internally use terms such as:
 
 ```text
-Target
-  ./project
-
-Optional
-  □ Extract domain semantic seed
-     Preserve business concepts and relations for future cross-project alignment / ontology experiments
-
-Optional focus
-  [Only when the user wants to emphasize a particular pain point]
-
-[Start Agentification]
+Gate 0
+Understand
+Sediment
+Disassemble
+Responsibility Map
+Harness
+Agentification Slice
+ACCEPT_WITH_DEFERRED_REFINEMENT
 ```
 
-Do not force the user to choose between internal Palingen stages or to configure an execution workflow.
+These are implementation/methodology language, not default user-interface language.
 
-### Domain semantic seeding
+Translate them into domain-oriented meaning unless the user explicitly asks to inspect Palingen internals.
 
-When the experimental semantic-seeding capability is available, offer it as an optional startup choice.
+Examples:
 
-Prefer user-facing language such as:
+```text
+Internal                         Default user-facing meaning
+Gate 0                           suitability check
+Understand                        understanding the current system
+Sediment / Disassemble            responsibility-boundary analysis
+Responsibility Map                what is staying / moving / owning truth
+Harness                           stable truth / constraint boundary
+Agentification Slice              the next coherent part being changed
+ACCEPT_WITH_DEFERRED_REFINEMENT   completed, with some improvements intentionally deferred
+```
 
-> Also identify important business concepts, terminology, rules, and relationships so they can be aligned across projects later.
+Do not make the user learn Palingen terminology to operate the project.
 
-Do not require users to understand OWL, RDF, SHACL, or ontology tooling.
-
-Enabling semantic seeding must not change the primary Agentification objective or block the main run.
-
-## 2. Default execution posture
+## 3. Default execution posture
 
 Prefer:
 
@@ -56,51 +78,56 @@ The Agent proceeds on ordinary bounded decisions, while important intermediate c
 
 Block only when human authority, irreversibility, high-impact ambiguity, or human-only information/capability makes intervention necessary.
 
-Do not ask the user to select a process mode merely to expose Palingen's internal methodology.
+Do not ask the user to select internal process modes or stage sequences.
 
-## 3. Progress presentation
+## 4. Progress presentation
 
 Present execution state, not private reasoning.
+
+More importantly, progress updates should be driven by **meaningful change**, not by internal stage transitions.
+
+Proactively update the user when one of these occurs:
+
+- a discovery materially changes direction;
+- a meaningful analysis or implementation milestone completes;
+- the Agent is about to begin a substantial or risky modification;
+- a blocker appears;
+- human intervention is required;
+- the run completes or materially changes scope.
+
+Do **not** report merely because Palingen moved from Understand to Sediment, Sediment to Disassemble, or another internal reasoning scope.
 
 A useful progress view answers:
 
 ```text
-Current stage
-Current focus
-What has been established
-What is active now
-Important findings or changed assumptions
-Whether human input is needed
-Latest durable artifact/checkpoint
-Likely next direction
+What important thing has been established?
+What coherent part is being worked on now?
+What is likely to change or stay unchanged?
+Is anything blocked or waiting on the user?
+What durable progress would survive interruption?
+What is the likely next direction?
 ```
 
 Example:
 
 ```text
-Current stage: Disassemble
+I have narrowed the first useful change to authentication recovery.
 
-Current focus:
-Split authentication recovery responsibilities
+Keeping unchanged:
+- existing API client
+- session file format
 
-Established:
-✓ login capability remains deterministic
-✓ session state is authoritative runtime truth
-✓ expiry interpretation is a semantic decision
+Changing:
+- session-resume interpretation moves to the Agent
+- login/resume remain deterministic capabilities
+- retry ceiling stays a hard constraint
 
-Active:
-→ retry / resume boundary
-
-Waiting for human:
-No
-
-Latest durable result:
-Responsibility Map updated
+Nothing is waiting on you. I am implementing and validating this part first.
 ```
 
-Avoid pretending semantic work has precise percentage completion.
+Avoid fake percentage completion and avoid routine stage-complete messages.
 
-## 4. Human intervention request
+## 5. Human intervention request
 
 When blocking human help is necessary, ask at the level of intent and consequence rather than low-level implementation detail.
 
@@ -115,29 +142,29 @@ A blocking request should explain:
 Example:
 
 ```text
-Human help required
+I need you to re-authenticate the target application.
 
-Reason:
-The target session has expired and the Agent cannot perform the required authentication step.
+Why:
+The current login state has expired and this authentication step should not be automated here.
 
 Already preserved:
-- current analysis
-- current Responsibility Map
-- unfinished slice state
+- completed analysis
+- current code changes
+- the recovery point
 
-Need from you:
-Re-authenticate the target application.
+What you need to do:
+Log in again, then tell me it is done.
 
-Afterwards:
-Tell Palingen the action is complete and it will resume from the current checkpoint.
-
-Other controls:
-Pause / Change direction / Skip current slice / Stop
+You can also say:
+- pause here
+- skip this part
+- change direction
+- stop
 ```
 
 Do not reduce human participation to repeated Approve / Reject prompts.
 
-## 5. Human responses are composable
+## 6. Human responses are composable
 
 A human may simultaneously:
 
@@ -161,108 +188,113 @@ instruction: continue from the current page
 
 Do not force these into mutually exclusive response modes.
 
-## 6. User-initiated control
+## 7. User-initiated control
 
-Where the product surface supports it, keep a small persistent control surface available:
+Where the product surface supports it, keep a small natural control surface available:
 
 ```text
-Inspect
-Pause
-Add note
-Redirect
-Stop
+查看当前情况
+暂停
+补充说明
+改变方向
+停止
 ```
 
-Expose advanced controls progressively when useful:
+Expose advanced controls progressively when useful, in user-oriented language:
 
 ```text
-Branch
-Replace result
-Skip current slice
-Resume
+从这里另开方案
+换掉这个结果
+跳过这部分
+继续
 ```
 
 The user must be able to intervene even if the Agent has not requested intervention.
 
-## 7. Recovery presentation
+## 8. Recovery presentation
 
-When a previous unfinished run is detected, do not replay the entire history.
+When a previous unfinished run is detected, do not replay the entire history and do not lead with internal stage names.
 
-Present a compact recovery summary:
+Present a compact domain-oriented summary:
 
 ```text
-Unfinished Palingen run detected.
+发现一个未完成的 Palingen 任务。
 
-Target:
+项目：
 ./project
 
-Current boundary:
-authentication recovery
+已经确认：
+- login remains deterministic
+- session state source is known
+- existing API client is retained
 
-Stage:
-Disassemble
+上次停在：
+判断 retry 应由 Agent 决策还是作为固定约束
 
-Last completed result:
-auth capability and truth boundaries established
+当前没有等待你处理的事项。
 
-Paused at:
-retry semantics
-
-[Resume] [Inspect] [Change direction] [Abandon]
+[继续] [查看详情] [改变方向] [放弃]
 ```
 
-The Agent should recover from durable state/artifacts, not rely on conversation memory alone.
+Internal stage/status may remain inspectable for debugging, but should not be the primary recovery language.
 
-## 8. Result presentation
+## 9. Result presentation
 
-Use progressive disclosure.
+Use progressive disclosure and translate internal acceptance enums into natural language.
 
-### Level 1 — outcome
+### Level 1 — user outcome
 
-Show the acceptance state and major architectural changes.
-
-Example:
+Prefer:
 
 ```text
-Outcome: ACCEPT_WITH_DEFERRED_REFINEMENT
+Palingen 活化完成
 
-Major responsibility changes:
-- authentication interpretation -> Agent
-- login execution -> Tool
-- session truth -> Harness
-- recovery know-how -> Skill
+结果：
+本轮目标已完成，少量后续优化项已暂缓。
 
-Retained unchanged:
+主要变化：
+- semantic interpretation now belongs to the Agent
+- deterministic session operations were retained
+- execution truth and retry limits remain stable constraints
+
+保留未动：
 - existing API client
 - existing session file contract
 
-Deferred:
-- reporting workflow
+暂缓：
+- reporting workflow; current benefit does not justify changing it yet
+
+需要你关注：
+无
 ```
+
+The underlying machine state may still be `ACCEPT`, `ACCEPT_WITH_DEFERRED_REFINEMENT`, or `NOT_ACCEPTED`, but users should not need to know those enums.
 
 ### Level 2 — architecture delta
 
-Show a concise before/after responsibility view rather than a long implementation dump.
+Show a concise before/after responsibility view when useful.
 
 ### Level 3 — evidence and artifacts
 
-Make detailed artifacts reachable on demand, for example:
+Make detailed internal artifacts reachable on demand:
 
 - Responsibility Map;
-- Harness/Skill/Connection views when they were materially useful;
-- Slice Plan / implementation evidence;
-- Validation evidence;
+- Harness/Skill/Connection views when materially useful;
+- implementation/validation evidence;
 - Domain Semantic Seed when enabled;
 - raw evidence needed for audit or debugging.
 
 > Compress the presentation, never the truth.
 
-## 9. Interaction anti-patterns
+## 10. Interaction anti-patterns
 
 Avoid:
 
 - asking the user to redefine Palingen's own goal;
-- exposing internal stage sequencing as configuration burden;
+- blocking startup on optional semantic seeding;
+- exposing internal stage sequencing as user-visible process burden;
+- routine progress updates caused only by stage transitions;
+- forcing users to understand Responsibility Map, Harness, Slice, or acceptance enums;
 - frequent low-value approval prompts;
 - vague requests such as "please handle this manually" without saying what and why;
 - hiding partial success behind a global FAILED state;
@@ -273,3 +305,5 @@ Avoid:
 ## Principle
 
 > Ask only for information or authority that materially changes what Palingen can safely and correctly do.
+
+> Internal structure should increase reliability without becoming user-visible ceremony.
