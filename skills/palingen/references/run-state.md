@@ -1,49 +1,33 @@
 # Minimal Run State Reference
 
-Use this reference to keep long-running Agentification work recoverable across context loss, session changes, tool failures, or human interruption.
+Use this reference only when an Agentification run is long enough that context loss, session changes, human interruption, or tool failure could make recovery expensive.
 
 The run state is a **whiteboard**, not a workflow engine.
 
 > Whiteboard remembers the run; it does not own the run.
 
-## Purpose
+## Recovery question
 
-A future Agent should be able to recover the current Palingen run without rereading the entire conversation history.
-
-The minimal state should answer:
-
-- what target is being Agentified;
-- what the current Agentification boundary is;
-- which stage is active;
-- what is currently being worked on;
-- what durable progress already exists;
-- whether execution is waiting on a human;
-- what currently blocks progress;
-- where the last useful checkpoint is;
-- what the Agent intended to do next.
-
-Do not turn this record into a hidden step scheduler or transition graph.
-
-## Suggested location
-
-When persistent run state is useful, prefer a small project-local directory such as:
+A new Agent should be able to answer, without rereading the whole conversation:
 
 ```text
-.agentification/
-├── state.yaml
-├── responsibility-map.yaml   # when structured form is useful
-└── artifacts/                # only durable artifacts worth preserving
+What target am I working on?
+What boundary is currently being Agentified?
+Which reasoning scope is active?
+What accepted progress must not be lost?
+What is blocking or waiting on a human?
+Where is the last useful checkpoint?
+What was the intended next direction?
 ```
 
-Exact filenames are implementation-specific. Palingen does not require YAML, a database, or any particular storage backend.
+If the work is short and easy to reconstruct, do not create persistent run state.
 
-## Minimal fields
+## Minimal record
 
-A compact state record may contain:
+Use the project's simplest convenient representation. YAML is only an example.
 
 ```yaml
 run_id: palingen-20260821-001
-
 target: ./project
 boundary: authentication-and-session-recovery
 
@@ -51,35 +35,26 @@ status: RUNNING
 stage: DISASSEMBLE
 current_focus: retry-and-session-semantics
 
-progress:
-  completed:
-    - gate-0
-    - understand
-    - harness-boundary
-  active:
-    - responsibility-split
-  pending:
-    - rebuild-auth-slice
+accepted_progress:
+  - login remains a deterministic capability
+  - session state is authoritative runtime truth
 
 waiting_for_human: false
 blocker: null
 
 last_checkpoint:
-  stage: DISASSEMBLE
   artifact: .agentification/responsibility-map.yaml
 
-next_intent: identify which retry decisions remain semantic
+next_intent: determine whether retry choice is semantic or invariant
 
-semantic_seed:
-  enabled: true
-  status: COLLECTING
+semantic_seed_enabled: true
 ```
 
-Only record fields that materially help recovery or human understanding.
+Only record fields that materially improve recovery or human understanding.
 
-## Run status
+## Status vocabulary
 
-Prefer a deliberately small status vocabulary:
+Prefer a very small vocabulary:
 
 ```text
 RUNNING
@@ -90,21 +65,13 @@ PARTIALLY_COMPLETE
 COMPLETED
 ```
 
-Local actions may additionally be recorded as:
+Do not model every tool call or internal thought as a state transition.
 
-```text
-SUCCEEDED
-FAILED
-SKIPPED
-```
+## Progress presentation
 
-Do not invent detailed state machines unless the target system itself requires one for correctness.
+Avoid fake percentages.
 
-## Progress representation
-
-Avoid fake percentage progress for semantic work.
-
-Prefer discrete stage and slice milestones:
+Use coarse milestones only when they help orientation:
 
 ```text
 Understand       ✓
@@ -114,69 +81,60 @@ Rebuild          ○
 Validate         ○
 ```
 
-For an active Agentification Slice, record only meaningful sub-results, for example:
-
-```text
-capability boundary   ✓
-responsibility owner  ✓
-artifact contract     ✓
-implementation        ●
-validation            ○
-```
+The whiteboard does not need a full pending-task list. `current_focus`, accepted progress, blocker, checkpoint, and `next_intent` are normally enough.
 
 ## Checkpoint rule
 
-Checkpoint what is necessary to continue, not everything that exists.
+> Checkpoint what is necessary to continue, not everything that exists.
 
-A checkpoint should normally preserve:
+Preserve only information that prevents expensive or unsafe reconstruction, such as:
 
-- current goal/boundary;
-- authoritative or accepted decisions needed later;
-- durable intermediate artifacts;
+- accepted responsibility/boundary decisions;
+- durable intermediate artifacts with future value;
 - unresolved blockers or human requests;
-- enough evidence to avoid repeating expensive analysis;
-- the next intended direction.
+- evidence needed to avoid repeating important analysis;
+- the current intended direction.
 
-Conversation transcripts and chain-of-thought are not required recovery state.
+Conversation transcripts and private reasoning are not recovery state.
 
 ## Human intervention
 
-If a human intervenes, preserve material facts such as:
+A human response may contain several things at once:
 
-- what the human changed or executed;
-- what information they supplied;
-- what judgment or correction they made;
-- what direction they changed;
-- whether the Agent may now resume.
+```text
+action performed
+new information
+correction
+annotation
+authority decision
+change of direction
+```
 
-A single intervention may contain several of these at once. Do not force them into mutually exclusive categories.
+Preserve the material facts together rather than forcing mutually exclusive response types.
 
 ## Recovery behavior
 
-When an unfinished state record is found, the Agent should:
+When an unfinished record is found:
 
-1. read the minimal run state;
-2. load only the current stage guidance and referenced durable artifacts;
-3. verify that the target and boundary still exist;
-4. summarize the recovered state to the human when useful;
-5. resume from the smallest valid checkpoint rather than restarting the entire process.
+1. read the minimal state;
+2. load the active Stage Skill and only referenced durable artifacts;
+3. verify the target/boundary against fresh observable facts;
+4. revise stale state when evidence conflicts with it;
+5. resume from the smallest valid checkpoint.
 
-If the saved state conflicts with fresh observable facts, observable facts win and the state record should be revised.
+The run-state record is not authoritative when the target system or Harness has a stronger source of truth.
 
-## Anti-patterns
-
-Do not use the whiteboard to encode:
+## Do not encode
 
 ```text
 step 1 -> step 2 -> step 3
 if X -> goto Y
 mandatory global sequencing
-hidden workflow ownership
+per-tool transition graphs
+hidden business workflow
 ```
 
-Do not make every minor Agent thought, tool call, or file read a state transition.
-
-Do not treat the whiteboard as authoritative execution truth when the underlying Harness or target system has a stronger source of truth.
+Do not create a database, event store, task manager, or dedicated runtime merely to implement this reference unless the target project independently needs one.
 
 ## Principle
 
