@@ -1,282 +1,171 @@
 # Palingen
 
 > **Agentification for existing software.**
->
-> Turn rigid workflows into agent-friendly systems by moving semantic control to agents and moving invariants into a stable harness.
 
-`[agentification]` `[agentic-architecture]` `[harness]` `[control-inversion]` `[software-refactoring]` `[tool-first]` `[skill-first]` `[event-sourcing]`
+Palingen is a lightweight methodology and Skill set for rebuilding existing software around an Agent-first control model.
 
----
-
-> **Solve et coagula** — dissolve, then recombine.
->
-> **As above, so below.** — used here as a design metaphor: high-level intent should remain traceable to low-level, verifiable capability and evidence.
-
-Palingen takes its name from **palingenesis**: rebirth through reconstruction. The project studies how existing software can be decomposed and rebuilt around an agentic control model rather than merely having an LLM added on top.
-
-## Thesis
-
-**Agentification** is an architectural regeneration process for existing software: understand the control and state structure of the old system; sediment deterministic, constraint-bearing, and verifiable responsibilities into a stable Harness; lift semantic interpretation, dynamic decision-making, and cross-component composition to an Agent; selectively salvage capabilities and knowledge from the old system; rebuild them under a new control structure; and validate the result through adaptability, reliability, recoverability, and auditability.
-
-In short:
+The goal is not to replace deterministic software with prompts. It is to redistribute responsibility:
 
 ```text
-Traditional software
-
-Code
- ├─ owns control flow
- ├─ calls LLMs
- ├─ parses model output
- ├─ adapts external systems
- ├─ branches on semantic meaning
- └─ stitches components together
-
-                ↓  Agentification
-
-Agent
- ├─ understands intent
- ├─ chooses capabilities
- ├─ interprets irregular results
- ├─ adapts sequencing
- ├─ supplies semantic glue
- └─ decides what to do next
-
-Harness
- ├─ exposes deterministic capabilities
- ├─ preserves state and evidence
- ├─ enforces invariants and permissions
- ├─ records events
- ├─ supports pause / resume / replay
- └─ keeps execution auditable
+Agent   -> semantic interpretation, contextual decisions, composition
+Skill   -> reusable strategy and domain knowledge
+Tool    -> deterministic capability
+Harness -> execution truth, constraints, permission, evidence, recovery
+Human   -> authority and valuable judgment
 ```
 
-The key change is **control inversion**:
+> Move semantic uncertainty upward to the Agent; move execution truth downward into the Harness.
 
-> The code no longer has to know every valid workflow in advance. The Agent owns semantic composition; the Harness owns execution truth.
+## What Agentification means
+
+Traditional software often mixes capability execution with workflow sequencing, semantic parsing, retries, human glue, and LLM-specific adapters.
+
+Palingen asks two questions first:
+
+```text
+What does the code DO?
+What does the code DECIDE?
+```
+
+Then it preserves stable capabilities, moves contextual semantic decisions toward the Agent, keeps hard correctness and authority boundaries deterministic, and rebuilds only the parts whose responsibility actually needs to change.
+
+The intended result is:
+
+> **Code provides capabilities, not unnecessarily rigid workflows.**
+
+## Method
+
+Palingen v1 uses five reasoning scopes:
+
+```text
+Gate 0
+  |
+  +-- ordinary refactoring is enough -> stop
+  |
+  v
+Understand
+  v
+Sediment <--> Disassemble
+  v
+Rebuild
+  v
+Validate
+```
+
+- **Understand** — discover control, state, semantics, side effects, human glue, and reusable capability.
+- **Sediment** — establish what must remain deterministic and authoritative.
+- **Disassemble** — separate capability, knowledge, semantic decisions, glue, authority, and obsolete workflow structure.
+- **Rebuild** — migrate the smallest valuable responsibility slices.
+- **Validate** — verify that the new control structure actually improves adaptability without sacrificing reliability or recoverability.
+
+The stages are checkpoints and reasoning scopes, not a workflow engine.
+
+## The living spine: Responsibility Map
+
+The main analytical artifact is the **Responsibility Map**.
+
+Palingen reasons in terms of responsibility atoms:
+
+```text
+Decision
+Action
+Truth
+Knowledge
+Permission
+```
+
+Typical ownership direction:
+
+```text
+Decision   -> Agent / deterministic policy / Human
+Action     -> Tool / Code
+Truth      -> Harness
+Knowledge  -> Skill / Reference
+Permission -> Harness / Human
+```
+
+Other maps and reports are optional views. Create a durable artifact only when it must survive a context, human-review, execution, or future-reuse boundary.
+
+## Long-running work
+
+Long Agentification runs may cross sessions, context windows, authentication changes, tool failures, or human intervention.
+
+Palingen therefore supports a deliberately small **run-state whiteboard** that records enough state to recover the work without encoding the workflow itself.
+
+> **Whiteboard remembers the run; it does not own the run.**
+
+Human interaction should default to **autonomous + reviewable**: ordinary bounded decisions proceed, important conclusions remain inspectable, and blocking requests are reserved for authority, irreversibility, important evidence gaps, or human-only capability.
+
+## Optional domain semantic seeding
+
+Palingen can optionally harvest business vocabulary, concepts, rules, states, outcomes, relationships, aliases, and provenance during Agentification.
+
+This is an experimental sidecar for future cross-project semantic alignment and ontology work.
+
+```text
+Project vocabulary
+      ↓
+Domain Semantic Seed
+      ↓ repeated projects
+Shared Domain Ontology
+      ↓ only if justified
+Formal OWL / SHACL / reasoning
+```
+
+Palingen v1 does **not** require OWL or ontology tooling.
 
 ## Core principles
 
-### 1. Code provides capabilities, not workflows
+- Agent owns semantic composition.
+- Deterministic work remains deterministic.
+- Harness owns execution truth, not business workflow sequencing.
+- Skills teach; they do not secretly own the workflow.
+- Preserve raw evidence before interpretation.
+- Prefer the largest safe unit of reuse.
+- Split where uncertainty, risk, recovery value, or human judgment makes the boundary useful.
+- One attention surface may coordinate many execution surfaces.
+- Let the Agent compress the view, never the truth.
+- Local failure should not erase useful completed work.
+- Minimize non-goal work for the human.
+- Architectural purity is not the goal; responsibility correction is.
 
-Prefer reusable, deterministic operations over hard-coded end-to-end sequences.
-
-```text
-Before: login -> create session -> send -> parse -> retry -> score
-After:  credential.inspect / session.create / message.send / evidence.record
-```
-
-The Agent composes capabilities according to context.
-
-### 2. Agent owns semantic glue
-
-Irregular CLI output, changing response formats, ambiguous errors, strategy selection, and context-dependent branching are often better handled by an Agent than by an expanding forest of parsers and `if/else` branches.
-
-This does **not** mean moving all logic into an LLM. Deterministic work should remain deterministic.
-
-### 3. Harness owns invariants
-
-The Agent may choose *how* to proceed, but it should not be trusted to redefine execution truth.
-
-Examples of Harness-owned invariants:
-
-- immutable objectives and scope;
-- permissions and approval boundaries;
-- append-only evidence;
-- state transitions;
-- artifact integrity;
-- audit events;
-- resumability and checkpoints.
-
-### 4. Skills provide strategy, not hidden control flow
-
-A Skill should carry domain knowledge, heuristics, evaluation guidance, and operating strategy. It should not merely disguise a fixed workflow as prose.
+## Repository structure
 
 ```text
-Skill = soft control / knowledge
-Harness = hard control / invariants
-Agent = semantic decision maker
-Tool = deterministic capability
+skills/palingen/SKILL.md
+    Root control frame — keep active during a Palingen run.
+
+skills/palingen/stages/
+    Understand / Sediment / Disassemble / Rebuild / Validate.
+
+skills/palingen/references/
+    Specialized decision guidance loaded only when relevant.
+
+docs/
+    Motivation, methodology overview, research backlog, known weaknesses.
+
+experimental/ontology/
+    Non-authoritative ontology experiments.
 ```
 
-High-level Skills help define the new structural frame. Lower-level Skills often emerge while dismantling the old system and recovering local operational knowledge.
+Start with [`skills/palingen/SKILL.md`](skills/palingen/SKILL.md).
 
-### 5. Use nails, glue, and lubricant deliberately
+For the conceptual overview, see [`docs/AGENTIFICATION.md`](docs/AGENTIFICATION.md).
 
-```text
-Structural coupling   -> nails
-Semantic coupling     -> Agent / LLM glue
-Incidental friction   -> lubricant / deterministic utilities
-```
+## Non-goals
 
-Use nails for truth, policy, and structure — not to recreate unnecessary fixed sequencing.
+Palingen v1 is not:
 
-### 6. Normalize transport, not semantics
-
-A tool result may have a small stable envelope while preserving its raw payload.
-
-```text
-ToolResult
-├─ ok
-├─ raw
-├─ metadata
-├─ artifacts
-├─ warnings
-└─ error
-```
-
-Avoid forcing every external system into a deep universal semantic schema when an Agent can often interpret the raw result directly.
-
-### 7. Preserve raw before normalize
-
-Original responses, command output, files, human actions, and generated glue should be retained before interpretation or summarization.
-
-### 8. One attention surface, many execution surfaces
-
-Human-facing semantic input and output should converge on an Agent-mediated interaction surface such as a CLI, chat, IDE, or TUI, even when execution spans APIs, CLIs, browsers, files, and other systems.
-
-> **Concentrate attention, not information.**
-
-The Agent may compress the user's view, but the Harness must retain the underlying execution truth and evidence.
-
-### 9. Everything important should be resumable
-
-Agent execution may pause for humans, authentication, external systems, or later continuation. State, events, and artifacts should make recovery possible without relying on conversational memory alone.
-
-## The emerging architecture
-
-```text
-                         Human
-                           │
-                  Interaction Surface
-                  CLI / Chat / IDE / TUI
-                           │
-                           ▼
-                         Agent
-                           │
-                 ┌─────────┴─────────┐
-                 │                   │
-               Skills             Context
-                 │                   │
-                 └─────────┬─────────┘
-                           ▼
-                    Harness Kernel
-                           │
-          ┌────────────────┼────────────────┐
-          ▼                ▼                ▼
-       Tool Runtime     State/Event      Human Gateway
-          │                │                │
-          └────────────────┼────────────────┘
-                           ▼
-                        Artifacts
-```
-
-A minimal Harness may eventually contain:
-
-```text
-ToolRegistry
-StateStore
-EventStore
-ArtifactStore
-TaskManager
-PolicyEngine
-Sandbox / Runtime
-Interaction Harness
-```
-
-## Agentification process
-
-Palingen currently models Agentification as a five-stage architectural regeneration process:
-
-```text
-1. Understand
-2. Sediment
-3. Salvage / Disassemble
-4. Rebuild
-5. Validate
-```
-
-`Sediment` and `Salvage / Disassemble` overlap deliberately: while the new load-bearing structure is being designed, dismantling the old project reveals reusable capabilities, local Skills, hidden state, and constraints that may reshape the Harness.
-
-```text
-                           OLD HOUSE
-                               │
-                         1. UNDERSTAND
-                               │
-                 ┌─────────────┴─────────────┐
-                 ▼                           ▼
-            2. SEDIMENT                3. DISASSEMBLE
-            new structure                 old assets
-                 │                           │
-      Harness / High Skills       Tools / Low Skills / Reuse
-                 │                           │
-                 └─────────────┬─────────────┘
-                               ▼
-                           4. REBUILD
-                               │
-              Agent + Skills + Harness + Tools
-                               │
-                           5. VALIDATE
-                               │
-                       AGENTIFIED SYSTEM
-```
-
-See [`docs/AGENTIFICATION.md`](docs/AGENTIFICATION.md) for the current methodology draft.
-
-## Refactoring lens
-
-Palingen will study existing code through categories such as:
-
-| Existing code | Likely destination |
-|---|---|
-| Deterministic capability | Tool |
-| Environment-specific deterministic adapter | Tool / Driver |
-| Domain knowledge and heuristics | Skill |
-| Semantic branching and interpretation | Agent |
-| Fixed workflow sequencing | Candidate for decomposition |
-| Security / correctness invariant | Harness / Policy |
-| Persistent execution state | Harness State / Events |
-| Raw output and evidence | Artifact Store |
-| Human-only action | Human Gateway |
-
-A central research question is not simply **"Can this be done by an Agent?"** but:
-
-> **Who should own this decision, and where should the truth live?**
-
-## Non-goals, for now
-
-Palingen is **not** intended to begin as:
-
-- another general-purpose LLM SDK;
-- another workflow DAG engine;
-- an OpenAI-compatible API wrapper;
-- a mandatory MCP framework;
-- a framework that replaces deterministic software with prompts;
-- a single-vendor Agent runtime.
-
-The goal is to develop a reusable method for transforming existing software into **agent-friendly software**.
-
-## Research directions
-
-Current questions include:
-
-- What code should become a Tool, Skill, Harness invariant, Agent responsibility, Human task, or removable glue?
-- What code should never be agentified?
-- How should contract friction influence responsibility assignment?
-- How do we measure semantic uncertainty, determinism, and risk?
-- How much control flow belongs in the Harness before it becomes another rigid workflow engine?
-- How should high-level and low-level Skills compose without recreating hidden control flow?
-- Which parsers and adapters can disappear once the Agent becomes semantic glue?
-- When should generated one-off glue code be promoted into a reusable Tool?
-- How should Agent-created glue run safely inside a sandbox?
-- How should Agent-to-human presentation be constrained without losing natural interaction?
-- How can the same Harness work across Codex, OpenCode, Claude Code, and other Agent runtimes?
-- How do event sourcing, tracing, replay, branching, and human checkpoints fit together?
-- How do we measure whether Agentification actually reduced integration cost and complexity?
-
-See [`docs/RESEARCH.md`](docs/RESEARCH.md) for the evolving research backlog.
+- a workflow DAG engine;
+- an LLM provider SDK;
+- a universal Agent runtime;
+- a mandatory MCP layer;
+- a fixed Event Store / State Store architecture;
+- a reason to rewrite stable deterministic software;
+- a requirement to model every project with an ontology.
 
 ## Status
 
-**Early research / architecture phase.**
+**v1 methodology complete; field validation in progress.**
 
-The repository is deliberately a shell while the Agentification model, classification system, Harness boundary, contract-friction model, interaction model, and refactoring methodology are being developed.
+The next priority is to run Palingen on materially different real projects, observe failure modes, and simplify or strengthen the method only where real friction justifies it.
