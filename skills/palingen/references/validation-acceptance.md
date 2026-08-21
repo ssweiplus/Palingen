@@ -53,6 +53,26 @@ Ask:
 - Has manual work shifted toward meaningful judgment instead of mechanical operation?
 - Are users being turned into approval machines?
 
+### Interaction naturalness
+
+A system can have an Agent internally and still feel like a rigid workflow externally.
+
+Ask:
+
+- Can the user express goals, corrections, additional context, and changed direction in domain language?
+- Does the primary surface hide internal stages, tool identifiers, Harness states, enums, and orchestration primitives unless inspection is requested?
+- Are progress updates triggered by meaningful change rather than every workflow/stage transition?
+- Are intervention requests phrased in terms of what the user needs to decide or do and why it matters?
+- Does the user have to choose Tool A vs Tool B, retry policies, next stage, or other mechanical orchestration that the Agent could safely own?
+- Are partial completion and blockers explained in useful language rather than only internal status codes?
+- If deterministic workflow steps remain visible, is that visibility valuable to the user or required by the domain?
+
+A useful test is:
+
+> If the user must understand the internal orchestration model to use the product effectively, has Agentification actually reduced non-goal work?
+
+Do not confuse a chat-shaped UI with a natural Agent experience. A chat interface that repeatedly asks the user to approve steps or select internal operations may still be a workflow engine wearing conversational skin.
+
 ### Semantic glue
 
 Ask:
@@ -87,6 +107,7 @@ Ask:
 - Are Skills knowledge and strategy rather than rigid sequencing?
 - Does Harness protect truth, policy, authority, and recovery without owning unnecessary business workflow?
 - Can Agent hypotheses be distinguished from authoritative state?
+- If a fixed workflow remains, is its ordering genuinely correctness/domain-bearing rather than merely inherited from the old implementation?
 
 ### Adaptability
 
@@ -105,7 +126,8 @@ Also check the negative side:
 - operational reliability;
 - additional state or observability complexity;
 - maintenance burden of Skills and Harness;
-- whether code complexity merely moved into prompts or hidden orchestration.
+- whether code complexity merely moved into prompts or hidden orchestration;
+- whether the new interaction model increased user interruption or cognitive load.
 
 System Validation asks whether Agentification produced **net value**, not merely whether it runs.
 
@@ -125,13 +147,14 @@ Check at least:
 4. Harness preserves the required truth, state, authority, evidence, and recovery guarantees.
 5. Valuable intermediate results can be inspected, reused, and recovered where intended.
 6. Human intervention occurs where human value or authority is high, without creating unnecessary approval burden.
-7. The new structure is easier to adapt or operate than the old one.
-8. Remaining friction is either acceptable or explicitly deferred.
-9. Further refinement has enough expected benefit to justify its cost.
+7. The user can operate the system primarily through domain intent rather than internal orchestration mechanics.
+8. The new structure is easier to adapt or operate than the old one.
+9. Remaining friction is either acceptable or explicitly deferred.
+10. Further refinement has enough expected benefit to justify its cost.
 
 ## 4. Acceptance Outcomes
 
-Use one of three outcomes.
+Use one of three internal outcomes.
 
 ### ACCEPT
 
@@ -151,7 +174,7 @@ Do not create a heavy continuous-optimization process.
 
 ### NOT_ACCEPTED
 
-A core Agentification objective was not achieved or an important compatibility, responsibility, safety, recovery, or usability boundary is wrong.
+A core Agentification objective was not achieved or an important compatibility, responsibility, safety, recovery, usability, or interaction boundary is wrong.
 
 Return to the smallest relevant level:
 
@@ -164,6 +187,8 @@ value assumption wrong      -> Understand / Suitability
 
 Do not restart the entire process by default.
 
+These internal outcomes do not need to be shown verbatim to end users. Translate them into natural language in the product surface.
+
 ## 5. Stop Rule
 
 Palingen follows a lazy refinement principle:
@@ -174,17 +199,16 @@ Prefer stopping when the important user and architecture gains have been achieve
 
 Do not continue decomposition merely for architectural purity.
 
-## 6. Validation Summary Template
+## 6. Lightweight evidence
 
-A lightweight final report may use:
+Preserve enough evidence to support the decision, but do not force a separate report if existing artifacts already carry it.
+
+When a structured summary is useful, it may contain:
 
 ```yaml
-slice_validation:
-  status: pass | fail | partial
-  notes: []
-
 system_validation:
   human_attention: improved | neutral | worse
+  interaction_naturalness: improved | neutral | worse
   semantic_glue: improved | neutral | worse
   recoverability: improved | neutral | worse
   compatibility: preserved | degraded
@@ -195,9 +219,6 @@ system_validation:
 final_acceptance:
   outcome: ACCEPT | ACCEPT_WITH_DEFERRED_REFINEMENT | NOT_ACCEPTED
   rationale: "..."
-  deferred:
-    - boundary: "..."
-      revisit_when: "..."
 ```
 
 Use evidence and concrete behavior rather than architecture aesthetics when making the final judgment.
