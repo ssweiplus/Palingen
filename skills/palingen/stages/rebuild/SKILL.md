@@ -91,13 +91,21 @@ Fact State remains authoritative. Agent Working State and Narrative State must n
 
 Operational Artifacts remain usable by their real consumers. Evidence capture may reference, snapshot, copy, hash, or record metadata without silently changing artifact contracts.
 
-### Connections
+### Connections and workflows
 
 Use Nails only for hard truth, safety, authority, and lifecycle structure. Keep stable transport/format friction deterministic. Let semantic/contextual composition remain visible to the Agent.
+
+A deterministic workflow may remain inside a Tool or retained code when its ordering is genuinely part of correctness or the capability itself. Do not dismantle it merely because it is a workflow.
+
+Conversely, do not preserve accidental sequencing that still owns contextual semantic decisions better left to the Agent.
 
 ### Human interaction
 
 Prefer autonomous + reviewable behavior. Block only when authority, irreversibility, important evidence deficiency, or human-only capability makes it necessary.
+
+The rebuilt user surface should use domain language by default. Do not require end users to understand Palingen stages, Tool identifiers, Harness states, Slice terminology, retry policies, or internal acceptance enums merely to operate the product.
+
+A chat-shaped interface is not automatically Agentic. If the conversation repeatedly asks the user to choose internal tools, approve routine steps, or advance workflow states, the old mechanical orchestration may simply have moved into the chat UI.
 
 ### Skill integrity
 
@@ -113,11 +121,14 @@ Before considering a meaningful slice ready for Validate, check:
 4. Are Operational Artifacts still compatible?
 5. Can useful intermediate work survive local failure where intended?
 6. Is human intervention available at the intended granularity without approval spam?
-7. Did Tool, Skill, Harness, Nail, or adapter accidentally recreate the old workflow?
-8. Is enough evidence available for later validation without manufacturing paperwork?
+7. Did Tool, Skill, Harness, Nail, adapter, or retained workflow accidentally recreate contextual orchestration that should belong to the Agent?
+8. If a deterministic workflow remains, is its ordering genuinely correctness/capability-bearing?
+9. Can the user operate the changed capability primarily through domain intent rather than internal orchestration mechanics?
+10. Does the interface explain meaningful progress/consequence instead of merely exposing stage/state/tool transitions?
+11. Is enough evidence available for later validation without manufacturing paperwork?
 
 ## Exit criteria
 
-Move toward Validate when selected slices are runnable and the intended responsibility transfer can be observed in practice.
+Move toward Validate when selected slices are runnable, the intended responsibility transfer can be observed in practice, and the resulting interaction does not unnecessarily push orchestration mechanics back onto the user.
 
 Do not wait for every module to be transformed. Preserve intentionally coarse regions and defer further decomposition when its value does not justify the friction.
