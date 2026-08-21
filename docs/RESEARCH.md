@@ -1,176 +1,171 @@
 # Palingen Research Backlog
 
-This document is intentionally incomplete. It records the questions that should be answered before Palingen hardens into a framework.
+This document tracks open research questions after the Palingen v1 methodology was formed.
 
-## 1. Responsibility classification
+It is **not** the normative specification for Palingen. Current operational guidance lives in `skills/palingen/`.
 
-Develop a practical decision model for assigning existing code to one of:
+Several earlier ideas have now been intentionally narrowed:
 
-- Agent
-- Skill
-- Tool
-- Harness
-- Human
-- Presentation / interface
+- Harness is a responsibility boundary, not a required bundle of Event Store / Artifact Store / workflow-engine components.
+- Execution events are semantic observability signals; Palingen does not require event sourcing or one event backend.
+- Operational Artifacts must remain compatible with their real consumers; evidence capture may reference/snapshot/hash/copy without hijacking the original artifact contract.
+- Skills carry knowledge and strategy; they do not own execution truth, authority, or hidden global sequencing.
+- Agentification should prefer coarse reuse and minimal responsibility transfer over architecture-purity rewrites.
 
-Candidate dimensions:
+## 1. Real-project validation
 
-- semantic uncertainty;
-- determinism;
-- operational risk;
-- need for auditability;
-- frequency of change;
-- environmental variability;
-- reversibility;
-- cost of failure.
+The highest-priority research task is to run Palingen v1 end-to-end on real projects.
 
-## 2. Workflow decomposition
+Observe:
 
-Study how to transform a fixed workflow into agent-composable capabilities without losing essential ordering constraints.
+- whether stages improve reasoning or become ceremony;
+- whether too many analysis artifacts are created;
+- where Responsibility / Skill / Harness boundaries are repeatedly misclassified;
+- whether Agentification Slices are naturally sized in practice;
+- whether human intervention becomes useful or approval-heavy;
+- whether original capability and artifact compatibility remain intact;
+- whether semantic glue is actually reduced rather than merely moved into prompts.
 
-Questions:
+Prefer evidence from repeated use over adding new methodology concepts.
 
-- Which sequencing is accidental and which is invariant?
-- How should mandatory preconditions be represented?
-- When is a deterministic workflow still the right abstraction?
-- Can a workflow be partially agentified?
+## 2. Artifact discipline
 
-## 3. Semantic glue
+Palingen has several possible views and artifacts, but most should remain optional.
 
-Classify glue code into:
+Research a practical rule for when an analysis deserves durable storage.
 
-- deterministic glue;
-- semantic glue;
-- protocol glue;
-- generated / ephemeral glue.
+Working principle:
 
-Study when parsers, normalizers, format adapters, retry branches, and error classifiers can be replaced by Agent interpretation, and when they should remain code.
+> Create a durable artifact only when it carries information needed across a context boundary, for human inspection, or for later execution/recovery.
 
-## 4. Skillification
+The Responsibility Map is currently the strongest candidate for the primary living analysis artifact. Harness Mapping, Skill Map, Glue Map, Connection Map, Workflow Extraction, and other views should remain conditional.
 
-Define a transformation from workflow knowledge into Skills.
+## 3. Responsibility allocation quality
 
-A Skill should capture:
+The v1 model uses responsibility atoms plus six dimensions:
 
-- purpose;
-- applicability;
-- strategy;
-- heuristics;
-- constraints;
-- evaluation guidance;
-- tool affordances;
-- escalation / human guidance.
+- Determinism;
+- Semantic Dependency;
+- Contract Volatility;
+- Truth Criticality;
+- Risk / Authority;
+- Composability.
 
-It should avoid encoding a hidden mandatory workflow unless that ordering is itself an invariant.
+Research where this model is insufficient or ambiguous across real projects.
 
-## 5. Harness boundary
+Do not introduce numeric scoring until repeated cases show that numbers improve decisions.
 
-Define the minimum stable Harness kernel.
+## 4. Skill degradation
 
-Candidate responsibilities:
+A major risk is converting rigid workflow code into rigid workflow prose.
 
-- Tool Registry
-- State Store
-- Event Store
-- Artifact Store
-- Policy Engine
-- Human Gateway
-- Checkpoint / resume
-- Sandbox / runtime
+Study:
 
-Research the distinction between:
+- which Skill patterns preserve strategy without owning sequencing;
+- whether `does_not_own` materially prevents responsibility creep;
+- when Procedure Fragments are helpful vs disguised workflows;
+- how Skill boundaries evolve when domain knowledge stabilizes.
 
-- trace vs event;
-- memory vs state;
-- state vs artifact;
-- policy vs skill guidance;
-- tool validation vs semantic interpretation.
+## 5. Harness boundary drift
 
-## 6. Agent-created glue
-
-Explore a lifecycle:
+Monitor whether Harness responsibility gradually expands from:
 
 ```text
-Unknown integration
-      ↓
-Agent interprets result
-      ↓
-Agent generates ephemeral glue
-      ↓
-Sandbox execution
-      ↓
-Artifact + event recording
-      ↓
-Repeated proven use
-      ↓
-Promotion candidate
-      ↓
-Reusable deterministic Tool
+truth + authority + invariants + observability semantics + recovery
 ```
 
-Define promotion criteria, testing, trust, and provenance.
+into business sequencing or strategy.
 
-## 7. Event-sourced execution
+Research practical warning signs and review heuristics for this drift.
 
-Investigate whether the Harness should treat events as execution truth and derive current state through reducers.
+Do not prescribe a fixed Harness infrastructure stack.
 
-Desired properties:
+## 6. Human intervention economics
 
-- auditability;
-- recovery;
-- replay;
-- branching;
-- model replacement experiments;
-- regression testing of Agent decisions.
+The v1 model distinguishes:
 
-## 8. Human as executor
+```text
+autonomous
+reviewable / overrideable
+blocking
+```
 
-Model human actions as first-class tasks rather than exceptional UI interruptions.
+Research which conditions reliably justify each mode and how to avoid approval fatigue while preserving real human authority.
 
-Possible capability surface:
+## 7. Agentification Slice granularity
 
-- human.ask
-- human.confirm
-- human.execute
-- human.select
-- human.annotate
-- human.provide_secret
+Rebuild uses Agentification Slice as the main migration unit.
 
-Study pause/resume semantics and how human-provided evidence should be preserved.
+Study:
 
-## 9. Runtime portability
+- when a slice is too coarse to expose useful semantic control;
+- when it is too fine and creates micro-Tools/micro-Skills;
+- whether capability + semantic decision + state/artifact boundary is sufficient as a recurring pattern;
+- how side-by-side migration behaves in larger systems.
 
-The method should not depend on one Agent vendor.
+## 8. Deterministic helper tools
 
-Initial runtimes of interest:
+Palingen should remain a Skill/methodology rather than harden into a heavy framework.
 
-- Codex
-- OpenCode
-- Claude Code
-- other tool-using coding agents
+Potential low-risk helpers include:
 
-Research the smallest common contract between an Agent runtime and a Palingen-style Harness.
+- repository inventory;
+- LLM call-site discovery;
+- parser / retry / fallback hotspot search;
+- state-write and artifact-path discovery;
+- dependency / call graph extraction;
+- human-intervention hotspot discovery.
 
-## 10. Evaluation
+Research which helpers genuinely save Agent/human effort before adding them.
 
-Agentification should be measurable rather than purely stylistic.
+Avoid creating a Palingen runtime, workflow engine, or mandatory SDK without strong evidence.
 
-Candidate metrics:
+## 9. Domain Semantic Seeding
 
-- glue-code reduction;
-- number of target-specific adapters;
-- integration effort for a new system;
-- unknown-format recovery rate;
-- deterministic failure rate;
-- human intervention frequency;
-- audit completeness;
-- resume success rate;
-- replayability;
-- semantic error rate;
-- amount of invariant logic accidentally moved into the Agent.
+Palingen v1 now reserves an experimental path for low-cost business-semantic harvesting.
+
+See `skills/palingen/references/domain-semantic-seeding.md`.
+
+Research:
+
+- which business concepts/relationships are worth retaining;
+- how to separate implementation vocabulary from durable domain semantics;
+- how provenance should be represented;
+- how local vocabularies from multiple projects can be aligned without forced equivalence;
+- when repeated semantic seeds justify a shared domain ontology;
+- when Turtle / OWL / SHACL or reasoning provides enough value to justify formalization.
+
+Working principle:
+
+> Preserve local vocabulary; align shared meaning gradually.
+
+The semantic seed is a sidecar and must not become execution truth.
+
+## 10. Runtime portability
+
+The methodology should remain usable across different tool-using coding/Agent environments.
+
+Research the smallest practical assumptions Palingen makes about an Agent runtime without creating a Palingen-specific runtime dependency.
+
+## 11. Evaluation
+
+Current validation uses qualitative Slice / System / Final Acceptance rather than a numerical score.
+
+Potential future evidence may include:
+
+- reduced integration/glue burden;
+- fewer target-specific semantic adapters;
+- successful resume/recovery;
+- preserved artifact compatibility;
+- reduced human context switching;
+- reduced approval burden;
+- ability to handle irregular but understandable outputs;
+- amount of invariant logic accidentally moved into Agent reasoning.
+
+Do not optimize for vanity metrics such as number of Agent calls, number of Skills, code deleted, or automation percentage.
 
 ## Working hypothesis
 
-A successful Agentification does **not** maximize Agent autonomy.
+A successful Agentification does **not** maximize Agent autonomy or architectural uniformity.
 
-It moves semantic uncertainty upward to the Agent while moving execution truth downward into the Harness.
+It creates a shared governance language for heterogeneous software, moves semantic uncertainty to the Agent where useful, keeps deterministic execution deterministic, preserves execution truth and human authority, and stops when further refinement is not worth the friction.
