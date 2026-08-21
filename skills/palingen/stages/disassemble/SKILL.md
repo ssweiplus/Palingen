@@ -10,7 +10,9 @@ This is not a mandate to maximize decomposition.
 
 ## Required inputs
 
-Keep the root Skill active and use the current project understanding, Responsibility Map, and Harness Mapping.
+Keep the root Skill active and use the current project understanding, Responsibility Map, and material Harness/authority decisions established so far.
+
+Use a separate Harness Mapping only when one actually exists and remains useful; it is not a required input.
 
 Load when relevant:
 
@@ -22,7 +24,7 @@ Load when relevant:
 - `../../references/ephemeral-glue.md`
 - `../../references/human-role.md`
 - `../../references/connection-model.md` when connection type matters;
-- `../../references/domain-semantic-seeding.md` when business vocabulary/relations are worth preserving across projects.
+- `../../references/domain-semantic-seeding.md` only when semantic seeding was explicitly enabled by the user for this run.
 
 If detailed analysis reveals a wrong Harness boundary, revise Sediment rather than forcing the assumption.
 
@@ -89,7 +91,7 @@ For meaningful Skill candidates, state what they teach and what they explicitly 
 
 Release unnecessary ordering to Agent composition. Preserve order only when order is part of correctness.
 
-Use `WORKFLOW_EXTRACTION.md` and/or a lightweight Skill Map when materially useful.
+Use `WORKFLOW_EXTRACTION.md` and/or a lightweight Skill Map only when materially useful.
 
 ## Contract and semantic glue analysis
 
@@ -105,11 +107,11 @@ Keep stable transport/schema handling deterministic. Move volatile semantic inte
 
 Preserve raw evidence before interpretation.
 
-Use `GLUE_MAP.md` when materially useful.
+Use `GLUE_MAP.md` only when materially useful.
 
 ## Domain semantic refinement
 
-If Understand harvested an optional Domain Semantic Seed, refine only what detailed code analysis can clarify.
+Only when semantic seeding was explicitly enabled, refine what detailed code analysis can clarify.
 
 Distinguish:
 
@@ -124,6 +126,8 @@ Preserve provenance and uncertainty. Use candidate mappings rather than forced e
 Do not require OWL, SHACL, a reasoner, or a canonical shared vocabulary in Palingen v1.
 
 The semantic seed remains a sidecar for future cross-project alignment, not an authoritative control model.
+
+If semantic seeding was not enabled, do not start it opportunistically during this stage.
 
 ## Connection candidates
 
@@ -152,9 +156,9 @@ Do not mark every uncertain branch as a Human checkpoint.
 
 Classify meaningful intervention as autonomous, reviewable/overrideable, or blocking. Blocking should be reserved for authority, irreversibility, important evidence deficiency, or human-only information/capability.
 
-## Required outputs
+## Information to carry forward
 
-At minimum, update the Responsibility Map and preserve enough analysis to show:
+At minimum, update the Responsibility Map and preserve enough accepted information to show:
 
 - coarse blocks intentionally retained;
 - proposed Tool/Code boundaries;
@@ -168,7 +172,7 @@ At minimum, update the Responsibility Map and preserve enough analysis to show:
 - human-visible decision/intervention points worth exposing;
 - candidate Agentification Slices for Rebuild.
 
-An updated Domain Semantic Seed is optional and should be retained only when it carries likely cross-project value.
+An updated Domain Semantic Seed is optional and only relevant when semantic seeding was enabled.
 
 Avoid empty process documents.
 
