@@ -75,24 +75,15 @@ Do not assume friction implies Agent mediation. Prefer the lowest-cost resolutio
 
 ## Optional domain semantic seeding
 
-When the project contains meaningful business vocabulary that may be useful across future projects in the same domain, optionally load `../../references/domain-semantic-seeding.md`.
+When semantic seeding was enabled at startup, or the user explicitly wants future cross-project semantic alignment, load `../../references/domain-semantic-seeding.md`.
 
-Harvest only useful domain semantics such as:
+Harvest only useful domain semantics such as business concepts/objects, actions/states, rules/outcomes, meaningful relationships, aliases, and provenance.
 
-- business concepts/objects;
-- actions and states;
-- rules and outcomes;
-- meaningful relationships;
-- local aliases and terminology;
-- provenance linking the semantic assertion back to code, prompts, UI, schemas, documents, or human clarification.
-
-This is an experimental sidecar, not a required deliverable and not execution truth.
-
-Do not force local vocabulary into a premature canonical ontology. Preserve project terminology and record candidate cross-project alignments only when grounded.
+This is an experimental sidecar, not execution truth and never an exit requirement.
 
 ## Responsibility view
 
-Create the initial Responsibility Map at system/module granularity.
+Create or update the initial Responsibility Map at system/module granularity.
 
 Identify:
 
@@ -107,26 +98,26 @@ Identify:
 
 This is reconnaissance, not final allocation.
 
-## Suggested output
+## Information to carry forward
 
-Produce a compact understanding artifact containing:
+Before moving on, preserve enough accepted information for later scopes to recover:
 
 - Gate 0 outcome and rationale;
-- exact project/workflow/toolchain boundary being Agentified;
-- major control and state structure;
-- semantic-orchestration hotspots;
-- contract-friction hotspots and likely treatment direction;
-- important existing capabilities;
-- operational artifacts/contracts that must remain usable;
-- human-intervention/attention hotspots;
+- exact boundary being Agentified;
+- major control/state structure;
+- semantic-orchestration and important friction hotspots;
+- existing capabilities and operational contracts that must remain compatible;
+- important human-attention/authority points;
 - initial Responsibility Map;
-- areas explicitly recommended to remain ordinary software.
+- areas intentionally left as ordinary software.
 
-When domain semantic seeding is materially useful, preserve it as a lightweight optional sidecar rather than expanding the mandatory Understanding artifact.
+Prefer updating the Responsibility Map and lightweight run state when they already provide a durable home for this information.
+
+Create a separate Understanding document only when the information must cross a context/review boundary and existing artifacts cannot carry it cleanly.
 
 ## Exit criteria
 
-Do not enter Sediment until the Agent can answer:
+Move toward Sediment when the Agent can answer:
 
 1. Why is this an Agentification problem rather than ordinary refactoring?
 2. What exact boundary is being Agentified?
@@ -134,5 +125,3 @@ Do not enter Sediment until the Agent can answer:
 4. Where does semantic orchestration currently live?
 5. Which operational artifacts/capabilities must not be broken?
 6. Which friction is semantic enough to justify later Agent mediation, and which should remain deterministic?
-
-Domain semantic seeding is never an exit requirement for v1.
