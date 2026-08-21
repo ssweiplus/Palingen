@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520" role="img" aria-labelledby="title desc">
+  <title id="title">Palingen three-layer model</title>
+  <desc id="desc">Methodology guides the Engineering Skill, which transforms software into an Agentified product while separating Agent, Skill, Tool, Harness, and Human responsibilities.</desc>
+  <defs>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f7f9fc"/>
+      <stop offset="1" stop-color="#eef2f8"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#18213a" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 z" fill="#69789a"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="520" rx="26" fill="url(#panel)"/>
+
+  <g font-family="Inter,Segoe UI,Arial,sans-serif">
+    <text x="70" y="60" fill="#18213a" font-size="28" font-weight="700">Three layers, three audiences</text>
+    <text x="70" y="89" fill="#66738f" font-size="17">三层结构：方法论服务于思考，Skill 服务于执行，最终产品服务于用户</text>
+
+    <g filter="url(#shadow)">
+      <rect x="70" y="125" width="300" height="112" rx="18" fill="#ffffff" stroke="#d9e0ec"/>
+      <rect x="450" y="125" width="300" height="112" rx="18" fill="#ffffff" stroke="#d9e0ec"/>
+      <rect x="830" y="125" width="300" height="112" rx="18" fill="#ffffff" stroke="#d9e0ec"/>
+    </g>
+
+    <text x="95" y="161" fill="#87642a" font-size="15" font-weight="700" letter-spacing="1.5">METHODOLOGY</text>
+    <text x="95" y="192" fill="#1f2a44" font-size="22" font-weight="700">How to reason</text>
+    <text x="95" y="217" fill="#66738f" font-size="15">Understand · Sediment · Disassemble · Rebuild · Validate</text>
+
+    <text x="475" y="161" fill="#3d6f68" font-size="15" font-weight="700" letter-spacing="1.5">ENGINEERING SKILL</text>
+    <text x="475" y="192" fill="#1f2a44" font-size="22" font-weight="700">How the Agent works</text>
+    <text x="475" y="217" fill="#66738f" font-size="15">progressive loading · responsibility map · recovery</text>
+
+    <text x="855" y="161" fill="#5f4b8b" font-size="15" font-weight="700" letter-spacing="1.5">AGENTIFIED PRODUCT</text>
+    <text x="855" y="192" fill="#1f2a44" font-size="22" font-weight="700">How the user experiences it</text>
+    <text x="855" y="217" fill="#66738f" font-size="15">intent in domain language · meaningful progress · human authority</text>
+
+    <path d="M380 181 H435" stroke="#69789a" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <path d="M760 181 H815" stroke="#69789a" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+    <text x="70" y="297" fill="#18213a" font-size="24" font-weight="700">Responsibility, not ritual</text>
+    <text x="70" y="326" fill="#66738f" font-size="16">把不确定性和确定性放回它们应该存在的位置，而不是把内部流程暴露给用户。</text>
+
+    <g filter="url(#shadow)">
+      <rect x="70" y="357" width="190" height="92" rx="16" fill="#fff" stroke="#d9e0ec"/>
+      <rect x="286" y="357" width="190" height="92" rx="16" fill="#fff" stroke="#d9e0ec"/>
+      <rect x="502" y="357" width="190" height="92" rx="16" fill="#fff" stroke="#d9e0ec"/>
+      <rect x="718" y="357" width="190" height="92" rx="16" fill="#fff" stroke="#d9e0ec"/>
+      <rect x="934" y="357" width="196" height="92" rx="16" fill="#fff" stroke="#d9e0ec"/>
+    </g>
+
+    <text x="95" y="389" fill="#9a6b24" font-size="18" font-weight="700">Agent</text>
+    <text x="95" y="415" fill="#66738f" font-size="14">interpret · decide</text>
+    <text x="95" y="436" fill="#66738f" font-size="14">compose semantics</text>
+
+    <text x="311" y="389" fill="#4f6b9c" font-size="18" font-weight="700">Skill</text>
+    <text x="311" y="415" fill="#66738f" font-size="14">teach strategy</text>
+    <text x="311" y="436" fill="#66738f" font-size="14">preserve know-how</text>
+
+    <text x="527" y="389" fill="#47736c" font-size="18" font-weight="700">Tool</text>
+    <text x="527" y="415" fill="#66738f" font-size="14">execute deterministic</text>
+    <text x="527" y="436" fill="#66738f" font-size="14">capabilities</text>
+
+    <text x="743" y="389" fill="#5b4a87" font-size="18" font-weight="700">Harness</text>
+    <text x="743" y="415" fill="#66738f" font-size="14">truth · authority</text>
+    <text x="743" y="436" fill="#66738f" font-size="14">constraints · recovery</text>
+
+    <text x="959" y="389" fill="#8a4e62" font-size="18" font-weight="700">Human</text>
+    <text x="959" y="415" fill="#66738f" font-size="14">goal · authority</text>
+    <text x="959" y="436" fill="#66738f" font-size="14">valuable judgment</text>
+
+    <text x="70" y="492" fill="#7b879f" font-size="14" font-style="italic">Internal structure should improve reliability — not become user ceremony.</text>
+  </g>
+</svg>
