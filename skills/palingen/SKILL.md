@@ -44,7 +44,7 @@ Validate
   +-- return to smallest broken boundary
 ```
 
-These are reasoning and checkpoint scopes, not a workflow engine.
+These are reasoning and checkpoint scopes, not a workflow engine and not a user-facing wizard.
 
 Keep this root Skill active. Load only the current Stage Skill and the references needed for the current decision.
 
@@ -55,6 +55,7 @@ Keep this root Skill active. Load only the current Stage Skill and the reference
 - Harness owns execution truth, invariants, permissions, evidence semantics, and recovery constraints.
 - Skills teach reusable strategy and knowledge; they must not hide mandatory global sequencing.
 - Deterministic work stays deterministic.
+- A deterministic workflow may remain inside a Tool/Code capability when its ordering is genuinely part of correctness or the capability itself.
 - Preserve raw evidence before interpretation or normalization.
 - Prefer the largest safe unit of reuse; split only where a boundary creates real value.
 - Human escalation is not a substitute for Agent reasoning.
@@ -62,6 +63,7 @@ Keep this root Skill active. Load only the current Stage Skill and the reference
 - Let the Agent compress the view, never the truth.
 - Local failure should not erase valuable completed work.
 - Architectural purity is not the goal; responsibility correction is.
+- Internal Palingen terminology should not become mandatory user vocabulary.
 
 ## Responsibility Map — the living spine
 
@@ -117,13 +119,19 @@ Use `references/run-state.md` for recovery/state design and `references/interact
 
 Default human interaction posture is **autonomous + reviewable**. Block only when authority, irreversibility, important evidence deficiency, or human-only capability requires it.
 
+User-facing updates should normally use domain language and meaningful changes rather than Palingen stage names, internal enums, Tool identifiers, or routine stage-transition reports.
+
 ## Optional domain semantic seeding
 
-At startup, semantic seeding may be offered as an optional experimental capability.
+At startup, semantic seeding may be offered once as an optional experimental capability.
+
+Default to **off**. The offer must not block normal Agentification; if the user does not enable it, continue without semantic seeding.
 
 When enabled, harvest only useful business concepts, terminology, rules, states, outcomes, relations, aliases, and provenance. Do not let the seed become execution truth or a prerequisite for Agentification.
 
-Load `references/domain-semantic-seeding.md` only when enabled or materially useful.
+Do not enable it opportunistically later merely because interesting vocabulary appears unless the user explicitly opts in.
+
+Load `references/domain-semantic-seeding.md` only when enabled.
 
 ## Reference map
 
