@@ -21,7 +21,8 @@ Load when relevant:
 - `../../references/semantic-glue-migration.md`
 - `../../references/ephemeral-glue.md`
 - `../../references/human-role.md`
-- `../../references/connection-model.md` when connection type matters.
+- `../../references/connection-model.md` when connection type matters;
+- `../../references/domain-semantic-seeding.md` when business vocabulary/relations are worth preserving across projects.
 
 If detailed analysis reveals a wrong Harness boundary, revise Sediment rather than forcing the assumption.
 
@@ -106,6 +107,24 @@ Preserve raw evidence before interpretation.
 
 Use `GLUE_MAP.md` when materially useful.
 
+## Domain semantic refinement
+
+If Understand harvested an optional Domain Semantic Seed, refine only what detailed code analysis can clarify.
+
+Distinguish:
+
+- implementation names from durable business concepts;
+- local aliases from genuinely different concepts;
+- business rules from workflow mechanics;
+- business state from execution/runtime state;
+- business relationships from accidental code coupling.
+
+Preserve provenance and uncertainty. Use candidate mappings rather than forced equivalence when another project or vocabulary appears similar.
+
+Do not require OWL, SHACL, a reasoner, or a canonical shared vocabulary in Palingen v1.
+
+The semantic seed remains a sidecar for future cross-project alignment, not an authoritative control model.
+
 ## Connection candidates
 
 When important owner-to-owner boundaries are non-obvious, classify the connection:
@@ -149,6 +168,8 @@ At minimum, update the Responsibility Map and preserve enough analysis to show:
 - human-visible decision/intervention points worth exposing;
 - candidate Agentification Slices for Rebuild.
 
+An updated Domain Semantic Seed is optional and should be retained only when it carries likely cross-project value.
+
 Avoid empty process documents.
 
 ## Exit criteria
@@ -165,3 +186,5 @@ Move toward Rebuild when:
 - candidate slices can transfer control without unnecessary decomposition;
 - Harness conflicts have been fed back to Sediment;
 - decomposition is no finer than justified by actual value.
+
+Domain ontology completeness is never an exit requirement for v1.
