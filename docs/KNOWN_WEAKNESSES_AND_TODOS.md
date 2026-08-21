@@ -1,153 +1,61 @@
 # Palingen — Known Weaknesses and TODOs
 
-This document records weaknesses, unresolved assumptions, and follow-up work that remain after the first closed-loop design of the Palingen Agentification Skill.
+This is the field-validation backlog for Palingen v1.
 
-It is intentionally not a second methodology document. Items belong here when they are not yet proven enough to harden into the core Skill.
+It is **not** a second methodology document. Do not promote an item into the core method until repeated project evidence shows that the current guidance is insufficient.
 
----
+## Priority 1 — Run real projects
 
-## 1. Highest-priority validation work
+The methodology is internally coherent but still under-tested in practice.
 
-### 1.1 Run Palingen end to end on real projects
-
-The current methodology is internally coherent, but much of it is still design-time reasoning rather than field evidence.
-
-Validate on several materially different project types, preferably including:
+Run Palingen end to end on materially different targets, preferably including:
 
 - an existing LLM workflow application;
-- a human-operated multi-tool workflow with no embedded LLM;
+- a human-operated multi-tool process;
 - a mostly deterministic project that Gate 0 should reject;
-- a project with valuable intermediate artifacts and recovery needs.
+- a project with long-running recovery and valuable intermediate artifacts;
+- two projects in the same business domain for semantic-seed alignment experiments.
 
-Observe where the Agent:
+Record friction and failure patterns rather than adding abstractions pre-emptively.
 
-- gets stuck;
-- over-analyzes;
-- creates unnecessary artifacts;
-- misassigns responsibility;
-- over-decomposes stable code;
-- recreates workflow logic inside Skills, Tools, or Harness;
-- escalates too much to the human;
-- fails to preserve operational compatibility.
+## What to watch
 
-Do not optimize the methodology further until these failure modes are observed in real use.
+### 1. Artifact explosion
 
----
+Risk: the Agent mechanically creates Understanding, Harness Map, Skill Map, Glue Map, Connection Map, Slice Plan, reports, and other documents.
 
-## 2. Artifact explosion risk
+Current rule:
 
-Palingen currently has many possible analysis artifacts:
+> Responsibility Map is the primary living analytical artifact. Create another durable artifact only when information must survive a context, review, execution, or reuse boundary.
 
-- project understanding;
-- Responsibility Map;
-- Harness Mapping;
-- Workflow Extraction;
-- Glue Map;
-- Skill Map;
-- Connection Map;
-- Slice Plans;
-- Validation report;
-- optional `.agentification.md`.
+TODO: verify whether this is strong enough in real runs.
 
-The methodology says these are conditional, but an Agent may still generate them mechanically.
+### 2. Stage ritualization
 
-### TODO
+Risk: the five reasoning scopes turn into mandatory sequential paperwork or approval gates.
 
-Validate and likely harden this rule:
+Watch for duplicated analysis, artificial waiting, one-document-per-stage behavior, or failure to revisit the smallest relevant earlier scope.
 
-> Create a durable artifact only when it carries information that must survive a context boundary, human review boundary, execution boundary, or future reuse boundary.
+TODO: simplify stage guidance further if this appears in practice.
 
-The **Responsibility Map** should remain the primary living analytical artifact. Other maps should usually be views or optional supporting artifacts rather than mandatory documents.
+### 3. Responsibility misclassification
 
-Need field evidence before deciding whether to encode this rule more strongly in the root Skill.
-
----
-
-## 3. Root Skill growth risk
-
-The root Skill now contains Gate 0, cross-stage invariants, responsibility principles, execution-truth reminders, Human-role reminders, target-form guidance, and loading instructions.
-
-All of these are useful, but continued growth could make the root Skill duplicate the Stage Skills and references.
-
-### TODO
-
-After real-project trials, reduce the root Skill to only principles whose absence would cause the whole Agentification effort to drift.
-
-Desired long-term shape:
+Ambiguous boundaries remain judgment-heavy, especially:
 
 ```text
-Root Skill = constitution
-Stage Skill = current mission
-Reference = specialized decision knowledge
+Agent vs deterministic policy
+Tool vs internal Code
+Skill vs Agent reasoning
+Harness invariant vs workflow sequencing
+Human Judgment vs Agent autonomy
+Lubricant vs semantic glue
 ```
 
-Do not add new detailed taxonomies to the root Skill by default.
+TODO: collect concrete mistakes and build example-driven calibration. Avoid numeric scoring until evidence justifies it.
 
----
+### 4. Skills regressing into workflows
 
-## 4. Stage ritualization risk
-
-The five stages are intended as reasoning and context boundaries, not as a rigid project-management workflow.
-
-There is still a risk that an Agent will interpret them as mandatory sequential paperwork:
-
-```text
-Understand -> document
-Sediment -> document
-Disassemble -> document
-Rebuild -> document
-Validate -> document
-```
-
-rather than as adaptive reasoning scopes.
-
-### TODO
-
-During real use, measure whether each stage materially improves decisions.
-
-Watch for:
-
-- artificial waiting for stage completion;
-- duplicate analysis across adjacent stages;
-- unnecessary human review at stage boundaries;
-- failure to revisit Sediment when Disassemble changes assumptions;
-- stage documents produced only to satisfy structure.
-
-If observed, simplify stage exit criteria rather than adding more workflow machinery.
-
----
-
-## 5. Responsibility assignment remains judgment-heavy
-
-The current model uses responsibility atoms plus six dimensions:
-
-- Determinism;
-- Semantic Dependency;
-- Contract Volatility;
-- Truth Criticality;
-- Risk / Authority;
-- Composability.
-
-This is useful, but there is not yet enough evidence that different Agents will classify ambiguous responsibilities consistently.
-
-### TODO
-
-Collect misclassification examples from real projects, especially:
-
-- Agent vs deterministic policy;
-- Tool vs internal Code;
-- Skill vs semantic Agent reasoning;
-- Harness invariant vs old workflow sequencing;
-- Human Judgment vs Agent autonomy;
-- deterministic adapter vs semantic glue.
-
-Prefer example-driven calibration over a numeric scoring system.
-
----
-
-## 6. Skill degeneration risk
-
-A major failure mode is converting workflow code into workflow prose:
+Risk:
 
 ```text
 workflow.py
@@ -155,219 +63,88 @@ workflow.py
 Step 1 / Step 2 / Step 3 in SKILL.md
 ```
 
-The current `does_not_own` model helps, but has not yet been field-tested.
+TODO: verify that Skills teach reusable know-how and explicitly do not own truth, permission, execution, lifecycle invariants, or hidden global sequencing.
 
-### TODO
+### 5. Harness overgrowth
 
-Test whether Skills produced by Palingen actually remain knowledge-bearing rather than sequencing-bearing.
+Risk: semantic business sequencing leaks back into Harness under names such as policy, lifecycle, validation, or recovery.
 
-Validate that important Skills can answer:
+TODO: collect examples and preserve the rule:
 
-- What does this Skill teach?
-- What decisions remain contextual?
-- What does this Skill explicitly not own?
-- Which invariants are enforced elsewhere?
-- Can the Agent deviate from the suggested strategy when evidence justifies it?
+> Harness constrains and remembers; it does not choose ordinary semantic business strategy.
 
-If Skills repeatedly become hidden workflows, strengthen the Skill-layering checks rather than adding more Skill types.
+### 6. Human attention quality
 
----
+Risk: the user becomes either an approval machine or is excluded when authority/judgment really matters.
 
-## 7. Harness overgrowth risk
+TODO: observe approval fatigue, unnecessary blocking, unsafe autonomy, poor intervention wording, and whether inspect/annotate/redirect/resume feels natural.
 
-Harness has a strong conceptual boundary:
+### 7. Agentification Slice granularity
 
-> What must remain correct even if the Agent is wrong?
+Risk: slices become either too large to expose meaningful decisions or so small that Tool/Skill/interface count explodes.
 
-But real projects may tempt the Agent to move semantic workflow sequencing into Harness under labels such as lifecycle, validation, recovery, or policy.
+TODO: keep the coarse-first rule and collect examples before formalizing slice-size guidance.
 
-### TODO
+### 8. Long-run recovery
 
-Collect concrete examples where Harness begins to decide business sequencing.
+Risk: the run-state whiteboard becomes either too weak to recover work or grows into a task manager/workflow engine.
 
-Validate that:
+TODO: test recovery across real session/context interruption and record the minimum state actually needed.
 
-- lifecycle constraints remain mechanical;
-- semantic next-action selection remains outside Harness;
-- authorization is separated from strategy;
-- recovery preserves truth and resumability without reconstructing a fixed business workflow.
+### 9. Domain semantic seeding
 
----
+Risk: experimental semantic extraction produces noisy implementation vocabulary, false equivalence across projects, or a maintenance burden larger than its value.
 
-## 8. Human attention model needs field validation
+TODO:
 
-The current model distinguishes Human roles and intervention modes:
+- test on at least two projects from the same business domain;
+- preserve local vocabulary and provenance;
+- distinguish candidate alignment from asserted equivalence;
+- evaluate whether lightweight YAML/TTL seeds are actually reusable;
+- do not introduce OWL/SHACL requirements until repeated evidence justifies them.
 
-```text
-autonomous
-reviewable / overrideable
-blocking
-```
+### 10. Target-form value
 
-This is conceptually sound, but the correct threshold between reviewable and blocking is still contextual.
+Directional goals such as one attention surface, progressive disclosure, first-class intermediate results, and local-failure recovery still need practical validation.
 
-### TODO
+TODO: measure whether they reduce real human/integration friction rather than merely making the architecture look more agentic.
 
-Evaluate:
+## Deferred engineering
 
-- approval fatigue;
-- cases where the Agent should have continued autonomously;
-- cases where it continued but should have blocked;
-- whether questions are asked at the level of human intent rather than implementation detail;
-- whether users can naturally inspect, annotate, redirect, branch, and resume.
+### Lightweight helper tools
 
-Do not optimize for minimum human intervention count. Optimize for minimum unnecessary human attention while preserving authority and valuable judgment.
+Potentially useful deterministic helpers include repository inventory, LLM-call-site discovery, parser/retry hotspot detection, dependency/call graph extraction, state-write hotspots, and human-intervention hotspot discovery.
 
----
+Add a helper only when it saves meaningful Agent or human effort in repeated runs.
 
-## 9. Agentification Slice granularity needs evidence
+Do **not** build a Palingen Runtime, Workflow Engine, Agent SDK, or mandatory state backend as a default direction.
 
-Agentification Slice is currently the preferred migration unit:
+### Quantitative scoring
 
-```text
-capability
-+ semantic decision
-+ truth / artifact boundary
-```
+Deferred.
 
-This appears promising, but there is not yet enough evidence about the right slice size.
+Prefer qualitative classification plus rationale until multiple real projects provide enough evidence for meaningful metrics.
 
-### TODO
+Avoid false precision such as `Agentification Suitability = 76`.
 
-Observe when slices become:
+## Research separation
 
-- too large to expose meaningful semantic decisions;
-- too small and create Tool/Skill/interface explosion;
-- awkward because old state or artifact contracts cross multiple slices;
-- unnecessarily expensive to validate independently.
+`docs/RESEARCH.md` contains longer-horizon research questions. This file contains concrete v1 weaknesses to observe during field use.
 
-Retain the coarse-first rule until real evidence suggests more formal guidance.
+If the same item appears in both, keep detailed exploration in `RESEARCH.md` and only the operational field risk here.
 
----
+## v1 modification rule
 
-## 10. Target-form assumptions need practical validation
-
-The current target form includes:
-
-- one attention surface, many execution surfaces;
-- Agent-owned semantic composition;
-- first-class intermediate results;
-- progressive disclosure;
-- local failure without global workflow failure;
-- natural Human intervention.
-
-These are directional properties rather than mandatory architecture components.
-
-### TODO
-
-Validate which of these properties actually produce user value in different project classes.
-
-In particular, avoid forcing a unified interaction surface when a specialized existing UI remains the best place for professional work.
-
----
-
-## 11. Observability semantics need implementation examples
-
-Palingen deliberately defines meaningful execution-event semantics without mandating JSONL, Event Store, tracing, ELK, database audit, or another backend.
-
-This keeps the method portable, but may leave implementers unsure about the minimum useful event surface.
-
-### TODO
-
-After real implementations, collect a small set of representative patterns for:
-
-- tool invocation / completion;
-- authoritative state change;
-- artifact availability;
-- Human intervention;
-- approval change;
-- checkpoint / resume / branch;
-- local failure / blocked execution.
-
-Keep these as examples, not as a required event schema unless repeated evidence proves a common contract valuable.
-
----
-
-## 12. Helper tools — useful but not yet designed
-
-Palingen should remain a Skill-first methodology, not become another Agent framework.
-
-Potential deterministic helpers may include:
-
-- repository inventory;
-- LLM call-site discovery;
-- parser / retry / fallback hotspot discovery;
-- call graph generation;
-- state-write hotspot discovery;
-- artifact/path discovery;
-- Human-intervention hotspot discovery;
-- dependency and entry-point inspection.
-
-### TODO
-
-Only add helpers that reduce Agent inspection cost without owning semantic decisions or workflow sequencing.
-
-Explicitly avoid drifting toward:
+Before changing the core methodology because of a weakness:
 
 ```text
-Palingen Runtime
-Palingen Workflow Engine
-Palingen Agent SDK
+Observe the failure
+    ↓
+Find the smallest broken boundary
+    ↓
+Try the smallest correction
+    ↓
+Re-run on a real project
 ```
 
-unless future evidence establishes a real need.
-
----
-
-## 13. Quantitative scoring remains deferred
-
-Possible future metrics include glue reduction, integration effort, Human attention, resume success, compatibility, semantic error, token cost, and latency.
-
-However, there is currently insufficient evidence for meaningful numeric weights or a universal Agentification score.
-
-### TODO
-
-For now use qualitative judgments plus rationale:
-
-```text
-Low / Medium / High
-```
-
-Collect comparable observations across several real Agentification projects before considering quantitative scoring.
-
-Do not create numerical precision without empirical grounding.
-
----
-
-## 14. Existing research backlog needs reconciliation
-
-`docs/RESEARCH.md` predates several settled decisions and still contains older candidate designs such as fixed Event Store / Artifact Store responsibilities and event-sourced execution as a primary research direction.
-
-### TODO
-
-After the first real-project validation pass:
-
-- mark resolved research questions as settled;
-- remove or rewrite assumptions superseded by the current Skill;
-- move still-open research into this backlog;
-- keep historical rationale only where it remains useful.
-
-Do not let outdated research notes silently reintroduce abandoned architecture assumptions.
-
----
-
-# Current priority
-
-The next major step is **not additional methodology design**.
-
-Priority order:
-
-```text
-1. Real-project end-to-end trials
-2. Observe failure modes and friction
-3. Fix only evidence-backed weaknesses
-4. Add small deterministic helper tools where they save real effort
-5. Revisit quantitative metrics only after multiple trials
-```
-
-The current methodology should be treated as a first design baseline that is ready to be challenged by use.
+> Fix observed friction; do not design around imagined complexity.
