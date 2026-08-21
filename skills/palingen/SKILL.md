@@ -2,46 +2,34 @@
 
 ## Purpose
 
-Use this Skill to transform an existing software project into an agent-friendly system through the Palingen Agentification methodology.
+Use Palingen to Agentify an existing software project by reallocating responsibility rather than rewriting everything.
 
-Palingen does not prescribe one fixed workflow implementation. It provides a staged reasoning method, responsibility-allocation protocol, and supporting references/tools. The Agent remains the semantic orchestrator.
+Default objective:
 
-## Gate 0 — Decide whether to Agentify at all
+> Agentify the selected target using the Palingen methodology.
 
-Before entering the five-stage process, first ask whether the target is actually an Agentification problem.
+Do not ask the user to restate this objective. Ask only for information that materially changes scope, authority, or optional behavior.
 
-Use `references/suitability-assessment.md` and prefer ordinary software improvement when semantic orchestration is not materially part of the problem.
+## Gate 0 — Should this be Agentified?
 
-Agentification is usually justified when at least one of the following is materially present:
+Before changing architecture, determine whether semantic orchestration is materially part of the problem.
 
-- an LLM is already embedded in the application's workflow or decision loop;
+Agentification is usually justified when one or more of these are important:
+
+- an LLM already participates in workflow or decision logic;
 - natural-language, semi-structured, probabilistic, or unstable outputs require semantic interpretation;
-- humans currently provide semantic orchestration across multiple deterministic tools.
+- humans currently provide semantic glue across multiple deterministic tools.
 
-If none of these are present, recommend conventional engineering instead of forcing Agentification.
+If ordinary refactoring is enough, recommend ordinary refactoring.
 
-> Agentification is justified by semantic orchestration, not by software inconvenience alone.
+Load `references/suitability-assessment.md` when the boundary is unclear.
 
-> If ordinary refactoring is enough, prefer ordinary refactoring.
-
-Palingen must be able to recommend **do not Agentify**.
-
-## Core operating model
-
-After Gate 0 passes:
-
-1. Understand
-2. Sediment
-3. Salvage / Disassemble
-4. Rebuild
-5. Validate
-
-Sediment and Disassemble may iterate. Rebuild should migrate the smallest valuable responsibility slices. Validate may return to the smallest relevant earlier scope.
+## Operating model
 
 ```text
 Gate 0
   |
-  +-- not suitable --> conventional improvement
+  +-- not suitable -> conventional improvement
   |
   v
 Understand
@@ -56,67 +44,37 @@ Validate
   +-- return to smallest broken boundary
 ```
 
-## Progressive loading
+These are reasoning and checkpoint scopes, not a workflow engine.
 
-Keep this root Skill as the persistent control frame. Load the current Stage Skill only when entering that stage, then load references only when the corresponding decision is materially present.
+Keep this root Skill active. Load only the current Stage Skill and the references needed for the current decision.
 
-Do not load every reference into active context by default.
+## Core invariants
 
-## Cross-stage invariants
-
-- Preserve original project goals, constraints, observed facts, and operational compatibility where required.
 - Code provides capabilities rather than unnecessarily rigid workflows.
-- Agent owns semantic composition and contextual decisions.
-- Harness owns execution truth, state integrity, permissions, evidence semantics, observability boundaries, and recovery constraints.
-- Skills carry knowledge and strategy; they must not disguise fixed workflows as prose.
+- Agent owns semantic interpretation, contextual decisions, and composition.
+- Harness owns execution truth, invariants, permissions, evidence semantics, and recovery constraints.
+- Skills teach reusable strategy and knowledge; they must not hide mandatory global sequencing.
+- Deterministic work stays deterministic.
 - Preserve raw evidence before interpretation or normalization.
-- Prefer deterministic code for deterministic work.
-- One attention surface may coordinate many heterogeneous execution surfaces.
-- Concentrate user attention without deleting information.
-- Let the Agent compress the view, never the truth.
-- Automate execution, not process ownership.
-- A failed local action should not erase successful intermediate work.
-- Minimize non-goal work for the human; spend machine effort to save human attention.
-- Prefer the largest safe unit of reuse; do not decompose stable code for architectural purity.
-- Split more finely where uncertainty, risk, valuable intermediate results, or human judgment make an inspection point useful.
-- Expose uncertainty without forcing human attention at every decision point.
+- Prefer the largest safe unit of reuse; split only where a boundary creates real value.
 - Human escalation is not a substitute for Agent reasoning.
-- Artifact capture must not break operational artifact use.
-- Palingen defines meaningful execution-event semantics, not a mandatory observability backend.
-- For long-running work, preserve enough lightweight run state to recover across context/session interruption without encoding a workflow engine.
+- Automate execution, not process ownership.
+- Let the Agent compress the view, never the truth.
+- Local failure should not erase valuable completed work.
+- Architectural purity is not the goal; responsibility correction is.
 
-## Core reference map
+## Responsibility Map — the living spine
 
-Load references by problem, not by habit:
+Maintain one primary **Responsibility Map** at the granularity needed for the current work.
 
-```text
-Should this be Agentified?          -> suitability-assessment.md
-What friction exists?               -> contract-friction.md
-Who should own this responsibility? -> responsibility-allocation.md
-What must remain true?              -> harness-mapping.md
-State/Event/Artifact semantics       -> execution-truth.md
-Long-run recovery / whiteboard       -> run-state.md
-Human-facing interaction             -> interaction-contract.md
-Workflow knowledge extraction       -> workflow-to-skill.md
-Semantic glue migration             -> semantic-glue-migration.md
-Temporary generated glue            -> ephemeral-glue.md
-Human participation                 -> human-role.md
-What should the rebuilt form be?    -> target-form.md
-Validation and stop decision         -> validation-acceptance.md
-```
-
-## Responsibility Allocation Protocol
-
-Responsibility allocation is the spine of the process. Maintain a living **Responsibility Map**.
-
-Start by identifying responsibility atoms:
+Responsibility atoms:
 
 ```text
-Decision   — what should happen next?
+Decision   — what should happen?
 Action     — what operation is performed?
-Truth      — what actually happened / is authoritative?
+Truth      — what is authoritative / what actually happened?
 Knowledge  — what reusable know-how guides decisions?
-Permission — who may authorize or constrain the action?
+Permission — who may authorize or constrain an action?
 ```
 
 Default directions:
@@ -129,98 +87,73 @@ Knowledge  -> Skill / Reference
 Permission -> Harness / Human
 ```
 
-Use `references/responsibility-allocation.md` when the boundary is ambiguous. Consider Determinism, Semantic Dependency, Contract Volatility, Truth Criticality, Risk/Authority, and Composability.
-
-Ownership may be layered rather than singular:
+Ownership may be layered:
 
 ```text
-Intent / semantic choice -> Agent
-Execution                -> Tool
-Execution truth          -> Harness
-Permission               -> Harness / Human
-Operational know-how     -> Skill
+semantic choice -> Agent
+execution       -> Tool
+execution truth -> Harness
+permission      -> Harness / Human
+know-how        -> Skill
 ```
 
-## Stage-level use of the Responsibility Map
+Load `references/responsibility-allocation.md` when ownership is ambiguous.
 
-### Understand
+## Artifact rule
 
-Identify current sequencing, state, interpretation, side effects, permissions, human roles, contract-friction hotspots, and mixed responsibilities. Do not prematurely assign every function.
+Do not mechanically produce a document for every stage or map type.
 
-### Sediment
+> Create a durable artifact only when it carries information that must survive a context boundary, human-review boundary, execution boundary, or future-reuse boundary.
 
-Establish the load-bearing boundary: authoritative truth, permissions, invariants, lifecycle constraints, evidence/observability semantics, and recovery descend into Harness; semantic interpretation and contextual strategy remain outside.
+The Responsibility Map is the default long-lived analytical artifact. Harness/Skill/Glue/Connection views, Slice Plans, semantic seeds, and reports are conditional.
 
-### Salvage / Disassemble
+## Long-running work and interaction
 
-Separate reusable deterministic capability, semantic decisions, knowledge, glue, authority, and obsolete workflow-only code. Prefer coarse reuse and split where uncertainty becomes valuable.
+For work that may cross sessions or context limits, preserve a minimal run-state whiteboard sufficient to recover the target, boundary, current stage/focus, durable progress, blocker or human request, last checkpoint, and next intent.
 
-### Rebuild
+> Whiteboard remembers the run; it does not own the run.
 
-Migrate responsibility rather than files. Use minimal Agentification slices, preserve compatible deterministic blocks, prefer side-by-side reconstruction, and ensure old workflow code no longer secretly owns the semantic decision being transferred.
+Use `references/run-state.md` for recovery/state design and `references/interaction-contract.md` for startup, progress, human intervention, recovery, and result presentation.
 
-### Validate
+Default human interaction posture is **autonomous + reviewable**. Block only when authority, irreversibility, important evidence deficiency, or human-only capability requires it.
 
-Verify slice correctness, system-level Agentification value, and final acceptance. Stop when further refinement is no longer justified.
+## Optional domain semantic seeding
 
-## Execution truth
+At startup, semantic seeding may be offered as an optional experimental capability.
 
-Keep these distinct:
+When enabled, harvest only useful business concepts, terminology, rules, states, outcomes, relations, aliases, and provenance. Do not let the seed become execution truth or a prerequisite for Agentification.
+
+Load `references/domain-semantic-seeding.md` only when enabled or materially useful.
+
+## Reference map
+
+Load by problem, not by habit:
 
 ```text
-Fact State      -> authoritative
-Working State   -> Agent hypothesis / strategy
-Narrative State -> presentation
+Suitability / Gate 0                 -> suitability-assessment.md
+Responsibility ownership             -> responsibility-allocation.md
+Harness boundary                     -> harness-mapping.md
+Execution truth / artifact semantics -> execution-truth.md
+Contract friction                    -> contract-friction.md
+Skill extraction / layering          -> workflow-to-skill.md / skill-layering.md
+Semantic or generated glue           -> semantic-glue-migration.md / ephemeral-glue.md
+Human role                           -> human-role.md
+Owner-to-owner connection            -> connection-model.md
+Target form                          -> target-form.md
+Validation / stop decision           -> validation-acceptance.md
+Long-run recovery                    -> run-state.md
+Human-facing interaction             -> interaction-contract.md
+Optional business semantics          -> domain-semantic-seeding.md
 ```
 
-Operational artifacts remain usable by their real consumers. Harness evidence capture may reference, snapshot, copy, hash, or record metadata without silently changing artifact contracts.
+## Stages
 
-Meaningful execution changes should be observable through a pluggable boundary. Do not require a particular Event Store, JSONL file, tracing stack, or audit backend.
+Detailed guidance lives under `stages/`:
 
-## Human role
+- `understand/SKILL.md`
+- `sediment/SKILL.md`
+- `disassemble/SKILL.md`
+- `rebuild/SKILL.md`
+- `validate/SKILL.md`
 
-Humans may act as Authority, Judgment, Provider, Executor, Annotator, or Controller.
-
-Prefer the least intrusive useful intervention mode:
-
-```text
-autonomous
-reviewable / overrideable
-blocking only when necessary
-```
-
-Humans should be able to inspect, pause, annotate, replace, branch, skip, redirect, and resume where the interaction surface supports it.
-
-## Granularity and incremental refinement
-
-Agentification may be deliberately incomplete in one pass.
-
-Prefer the largest safe reuse boundary. Split more finely only when uncertainty, risk, human judgment, independent intermediate value, or recovery value justifies it.
-
-Do not optimize toward architectural purity.
-
-When useful, leave a lightweight `.agentification.md` containing only:
-
-- current boundaries;
-- known compromises/assumptions;
-- evidence-based revisit triggers.
-
-## Target-form principles
-
-The rebuilt project should trend toward:
-
-- one attention surface, many execution surfaces;
-- Agent-owned semantic composition;
-- independently composable deterministic capabilities;
-- Harness-owned execution truth/authority/recovery constraints;
-- first-class useful intermediate results;
-- local failure that does not automatically become global workflow failure;
-- progressive disclosure rather than raw-information dumping;
-- natural human intervention without approval fatigue;
-- architectural legibility: capabilities, Skills, invariants, authority, evidence, and current progress are discoverable.
-
-## Detailed stage guidance
-
-Detailed stage guidance belongs under `skills/palingen/stages/`.
-
-Stage boundaries are checkpoints and context boundaries, not rigid workflow ownership. Revisit earlier artifacts when new evidence changes a boundary, but return to the smallest relevant scope.
+Return to the smallest relevant earlier scope when new evidence invalidates an assumption. Stop refining when further change no longer justifies its friction.
