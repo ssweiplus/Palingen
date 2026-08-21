@@ -75,7 +75,7 @@ A failure late in the workflow should not erase the value of earlier steps.
 
 > **A failed step should not become a failed workflow.**
 
-An Agentified system should preserve the process as inspectable units:
+An Agentified system should preserve useful execution facts and intermediate results as inspectable units:
 
 ```text
 Run
@@ -96,8 +96,8 @@ The human should be able to:
 
 - inspect;
 - interrupt;
-- edit;
-- retry;
+- edit or annotate;
+- retry where appropriate;
 - branch;
 - reuse intermediate artifacts;
 - replace one capability;
@@ -116,13 +116,13 @@ Palingen prefers:
 
 ```text
 Agent helps advance the process.
-Harness preserves the process.
-Human retains ownership of the process.
+Harness preserves execution truth, constraints, and recovery anchors.
+Human retains ownership of goals and important consequences.
 ```
 
 The system may automate execution without taking away the user's ability to understand and intervene.
 
-> **Automate execution, not ownership.**
+> **Automate execution, not process ownership.**
 
 This is particularly important when an operation is exploratory, expensive, long-running, uncertain, or partially recoverable.
 
@@ -147,17 +147,16 @@ artifacts = preserved
 next options = retry / modify / branch / stop
 ```
 
-This requires more than an Agent. It motivates Harness responsibilities such as:
+This motivates deterministic support for whichever execution facts are actually needed, such as:
 
-- action-level state;
-- append-only events;
-- intermediate artifacts;
+- authoritative state relevant to continuation;
+- meaningful execution observations;
+- useful intermediate artifacts;
 - raw evidence;
-- checkpoints;
-- resumability;
-- human intervention points.
+- minimal checkpoints;
+- human intervention facts.
 
-The Harness exists partly so that probabilistic orchestration does not make execution history disposable.
+Palingen does not require these to live in one event store, database, file format, or runtime. The point is that probabilistic orchestration must not make execution truth disposable.
 
 ## 6. Four practical liberations
 
@@ -213,4 +212,4 @@ It is software that is easier to use, combine, inspect, interrupt, repair, and r
                granular capabilities
 ```
 
-Palingen should remain grounded in this motivation as its methodology grows. The purpose is not to maximize autonomy. The purpose is to make heterogeneous software more naturally operable and composable by humans through an Agent, without sacrificing execution truth or control of the process.
+Palingen should remain grounded in this motivation as its methodology evolves. The purpose is not to maximize autonomy. The purpose is to make heterogeneous software more naturally operable and composable by humans through an Agent, without sacrificing execution truth or control of the process.
